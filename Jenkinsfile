@@ -1,10 +1,14 @@
-Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent { docker 'maven:3.3.3' }
+    agent {
+        docker {
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
+        }
+    }
     stages {
-        stage('build') {
+        stage('Build') { 
             steps {
-                sh 'mvn --version'
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
     }
