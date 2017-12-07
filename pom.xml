@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+	<modelVersion>4.0.0</modelVersion>
+  	<groupId>hortonworks.hdf.sam.refapp</groupId>
+  	<artifactId>sam-trucking-ref-app</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	
+	<properties>
+		<log4j2.version>2.6.2</log4j2.version>
+		<commons.logging.version>1.1.3</commons.logging.version>
+		<junit.version>4.5</junit.version> 
+	</properties>  
+
+
+	<dependencies>
+	
+		<!-- Logging -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.21</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.6.2</version>
+		    <scope>provided</scope>
+		</dependency>	
+		
+		<dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-core</artifactId>
+	        <version>${log4j2.version}</version>  
+	      	<scope>provided</scope>                   	
+		</dependency>					
+		
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.3</version>		
+		</dependency>
+
+		<!-- End of Logging -->	
+		
+		
+		<!-- SAM REST Client -->
+		<dependency>
+			<groupId>hortonworks.hdf.sam.sdk</groupId>
+  			<artifactId>sam-java-sdk</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>		
+		</dependency>
+		
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.0.0.RELEASE</version>
+			<scope>test</scope>
+		</dependency>	
+		
+		<!-- End of Test -->			
+	</dependencies>
+  	
+	<build>
+        <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			        
+         
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            
+		        
+        </plugins>
+    </build>   	  	
+</project>
