@@ -21,11 +21,6 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
-            steps {
-            	sh 'chmod a+x jenkins/scripts/deliver.sh'
-                sh './jenkins/scripts/deliver.sh' 
-            }
-        }
+
     }
 }
