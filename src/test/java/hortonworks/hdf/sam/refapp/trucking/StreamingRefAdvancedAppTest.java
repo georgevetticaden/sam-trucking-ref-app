@@ -10,7 +10,7 @@ import java.util.Map;
 
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
-import hortonworks.hdf.sam.sdk.testcases.model.SamComponent;
+import hortonworks.hdf.sam.sdk.testcases.model.SamTestComponent;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -36,12 +36,12 @@ public class StreamingRefAdvancedAppTest {
 	public void testNormalTruckingEvents() throws Exception {
 		String testName = "Test-Normal-Event";
 		Integer testTimeOutInSeconds = 200;
-		Map<String, List<SamComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
+		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
 		/* Validate the fields from the two streams were joined */
 		assertThat(testCaseExecutionResults.get("JOIN").size(), is(1));
-		SamComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
+		SamTestComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
 		assertNotNull(joinComponentResult);	
 		Map<String, String> joinFieldAndValues = joinComponentResult.getFieldsAndValues();
 		

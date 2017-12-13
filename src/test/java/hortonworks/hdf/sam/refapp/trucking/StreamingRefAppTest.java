@@ -10,7 +10,7 @@ import java.util.Map;
 
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
-import hortonworks.hdf.sam.sdk.testcases.model.SamComponent;
+import hortonworks.hdf.sam.sdk.testcases.model.SamTestComponent;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -36,12 +36,12 @@ public class StreamingRefAppTest {
 	public void testNormalTruckingEvents() throws Exception {
 		String testName = "Test-Normal-Event";
 		Integer testTimeOutInSeconds = 200;
-		Map<String, List<SamComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
+		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
 		/* Validate the fields from the two streams were joined */
 		assertThat(testCaseExecutionResults.get("JOIN").size(), is(1));
-		SamComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
+		SamTestComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
 		assertNotNull(joinComponentResult);	
 		Map<String, String> joinFieldAndValues = joinComponentResult.getFieldsAndValues();
 		
@@ -63,13 +63,13 @@ public class StreamingRefAppTest {
 	public void testViolationTruckingEvents() throws Exception {
 		String testName = "Test-Violation-Event";
 		Integer testTimeOutInSeconds = 200;
-		Map<String, List<SamComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
+		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
 		
 		/* Validate the fields from the two streams were joined */
 		assertThat(testCaseExecutionResults.get("JOIN").size(), is(1));
-		SamComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
+		SamTestComponent joinComponentResult = testCaseExecutionResults.get("JOIN").get(0);
 		assertNotNull(joinComponentResult);	
 		Map<String, String> joinFieldAndValues = joinComponentResult.getFieldsAndValues();
 		
@@ -86,14 +86,14 @@ public class StreamingRefAppTest {
 		/* Validate the that the filter worked in that and the violation event got passed to filter */
 		assertNotNull( testCaseExecutionResults.get("Filter"));	
 		assertThat(testCaseExecutionResults.get("Filter").size(), is(1));
-		SamComponent filterResult = testCaseExecutionResults.get("Filter").get(0);
+		SamTestComponent filterResult = testCaseExecutionResults.get("Filter").get(0);
 		Map<String, String> filterFieldAndValues = filterResult.getFieldsAndValues();
 		assertNotNull(filterFieldAndValues);
 		
 		String eventType  = filterFieldAndValues.get("eventType");
 		assertThat(eventType, is("Lane Departure"));
 		assertThat(testCaseExecutionResults.get("DriverAvgSpeed").size(), is(1));
-		SamComponent driverAvgSpeedComponent = testCaseExecutionResults.get("DriverAvgSpeed").get(0);
+		SamTestComponent driverAvgSpeedComponent = testCaseExecutionResults.get("DriverAvgSpeed").get(0);
 		assertNotNull(driverAvgSpeedComponent);
 		Map<String, String> driverAvgSpeedFieldAndValues = driverAvgSpeedComponent.getFieldsAndValues();
 		String avgSpeed = driverAvgSpeedFieldAndValues.get("speed_AVG");
@@ -110,14 +110,14 @@ public class StreamingRefAppTest {
 	public void testMultipleSpeedingEventsEvents() throws Exception {
 		String testName = "Multiple-Speeding-Events";
 		Integer testTimeOutInSeconds = 200;
-		Map<String, List<SamComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
+		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
 		assertThat(testCaseExecutionResults.get("JOIN").size(), is(4));
 		
 		/* Validate the window function that calculates average speed */
 		assertThat(testCaseExecutionResults.get("DriverAvgSpeed").size(), is(1));
-		SamComponent driverAvgSpeedComponent = testCaseExecutionResults.get("DriverAvgSpeed").get(0);
+		SamTestComponent driverAvgSpeedComponent = testCaseExecutionResults.get("DriverAvgSpeed").get(0);
 		assertNotNull(driverAvgSpeedComponent);
 		Map<String, String> driverAvgSpeedFieldAndValues = driverAvgSpeedComponent.getFieldsAndValues();
 		String avgSpeed = driverAvgSpeedFieldAndValues.get("speed_AVG");
@@ -128,13 +128,13 @@ public class StreamingRefAppTest {
 		/* Validate that the speeding violation Filter is correct. Filter shoudl recognize this event as  speeding since it is > 80 */
 		assertThat(testCaseExecutionResults.get("Speeding").size(), is(1));
 		assertNotNull(testCaseExecutionResults.get("Speeding").get(0));
-		SamComponent speedingFilterComponent = testCaseExecutionResults.get("Speeding").get(0);
+		SamTestComponent speedingFilterComponent = testCaseExecutionResults.get("Speeding").get(0);
 		Map<String, String> speedingFilterComponentFieldAndValues = speedingFilterComponent.getFieldsAndValues();
 		assertNotNull(speedingFilterComponentFieldAndValues);
 		
 		/* Validate the projection rounded correctly */
 		assertNotNull(testCaseExecutionResults.get("PROJECTION").get(0));
-		SamComponent projectionComponent = testCaseExecutionResults.get("PROJECTION").get(0);
+		SamTestComponent projectionComponent = testCaseExecutionResults.get("PROJECTION").get(0);
 		Map<String, String> projectionComponentFieldAndValues = projectionComponent.getFieldsAndValues();
 		assertNotNull(projectionComponentFieldAndValues);
 		String speedAvgRoundString = projectionComponentFieldAndValues.get("speed_AVG_Round");
