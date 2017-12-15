@@ -27,8 +27,11 @@ import org.springframework.core.io.Resource;
 public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnviornmentBuilder {
 	
 	
+	protected final Logger LOG = LoggerFactory.getLogger(TruckingRefAppEnviornmentBuilderImpl.class);
 	private static final int KILL_TIMEOUT_SECONDS = 35;
 	private static final int DEPLOY_TIMEOUT_SECONDS = 35;
+	
+	
 	/* Constructor Args Required for teh Builder */
 	private String samRESTUrl;
 	private String samCustomArtifactHomeDir;
@@ -73,7 +76,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 
-	protected final Logger LOG = LoggerFactory.getLogger(TruckingRefAppEnviornmentBuilderImpl.class);
 	
 	/**
 	 * Builds the environment required to deploy the Trucking Ref App 
@@ -110,13 +112,13 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime startTime = new DateTime();
 		LOG.info("Trucking Ref App Environment teardown started[" + startTime.toString() + "]");
 		
+		killAllRefApps();
+		deleteAllRefApps();
 		deleteAllCustomUDFsForRefApp();
 		deleteAllCustomSources();
 		deleteAllCustomSinks();
 		deleteAllCustomModels();
 		deleteAllCustomProcessorsRefApp();
-		killAllRefApps();
-		deleteAllRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
@@ -129,7 +131,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime start = new DateTime();
 		LOG.info("Starting to IMport all Ref Apps");
 		
-		importRefApps();
+		importTruckingRefAppAdvanced();
 		
 		DateTime end = new DateTime();
 		Seconds creationTime = Seconds.secondsBetween(start, end);
@@ -155,8 +157,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		killTruckingRefApp();
 		
 		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Killing all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Killing all Ref Apps. Time taken[ "+deleteTime.getSeconds() + " seconds ]");
 	}
 	
 	public void deleteAllRefApps() {
@@ -166,8 +168,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		deleteTruckingRefAppAdvanced();
 		
 		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Deletings all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deletings all Ref Apps. Time taken[ "+deleteTime.getSeconds() + " seconds ]");		
 	}
 	
 	
@@ -304,6 +306,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}
 	
 	public void uploadPhoenixEnrichmentSAMProcessor() {
+		
+		LOG.info("Starting uploading of PHoenixEnirchment Processer. This will take a few minutes");
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/phoenix-enrichment-processor-component.json";
 		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-"+ samCustomArtifactsVersions +"-jar-with-dependencies.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
@@ -339,13 +343,26 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}	
 
 	public void deleteAllCustomUDFsForRefApp() {
+		
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Custom UDFs");
+		
 		udfSDK.deleteUDF(roundUDFName);
 		udfSDK.deleteUDF(timestampLogUDFName);
 		udfSDK.deleteUDF(weekUDFName);
+		
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Custom UDFs. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
 	}	
 	
 	@Test
 	public void deleteAllCustomProcessorsRefApp() {
+		
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Custom Processors");
+		
 		processorSDK.deleteCustomSAMProcessor(enrichWeatherProcessorName);
 		processorSDK.deleteCustomSAMProcessor(normalizeModelProcessorName);
 		processorSDK.deleteCustomSAMProcessor(phoenixEnrichmentProcessorName);
@@ -353,17 +370,41 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}	
 	
 	private void deleteAllCustomModels() {
-		sourceSinkSDK.deleteCustomComponent(ComponentType.SOURCE,  kinesisSourceName);
+		
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Models in Model Registry");
+		
+		modelRegistrySDK.deleteModel(violationPredictionPMMLModel);
+		
+		DateTime end = new DateTime();
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Models from Model Registry. Time taken[ "+deleteTime.getSeconds() + " seconds ]");			
 		
 	}
 
 	private void deleteAllCustomSinks() {
+	
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Custom Sinks");	
+		
 		sourceSinkSDK.deleteCustomComponent(ComponentType.SINK,  s3SinkName);
+		
+		DateTime end = new DateTime();
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Custom Sinks. Time taken[ "+deleteTime.getSeconds() + " seconds ]");			
 		
 	}
 
 	private void deleteAllCustomSources() {
-		modelRegistrySDK.deleteModel(violationPredictionPMMLModel);
+		
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Custom Sources");
+		
+		sourceSinkSDK.deleteCustomComponent(ComponentType.SOURCE, kinesisSourceName);
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Custom Processors. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
 		
 	}	
 	
