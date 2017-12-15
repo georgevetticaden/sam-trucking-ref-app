@@ -3,6 +3,8 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 
 import static org.junit.Assert.assertNotNull;
+import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
+import hortonworks.hdf.sam.sdk.app.model.SAMApplicationStatus;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.SAMSourceSinkComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.model.ComponentType;
@@ -19,10 +21,14 @@ import org.joda.time.Seconds;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnviornmentBuilder {
 	
 	
+	private static final int KILL_TIMEOUT_SECONDS = 35;
+	private static final int DEPLOY_TIMEOUT_SECONDS = 35;
 	/* Constructor Args Required for teh Builder */
 	private String samRESTUrl;
 	private String samCustomArtifactHomeDir;
@@ -34,6 +40,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private SAMProcessorComponentSDKUtils processorSDK;
 	private SAMSourceSinkComponentSDKUtils sourceSinkSDK;
 	private SAMModelRegistrySDKUtils modelRegistrySDK;	
+	private SAMAppManagerImpl samAppManager;	
 	
 	/* Names of different entities that will be created for SAM Trucking Ref App */
 	private String roundUDFName = "ROUND";
@@ -44,7 +51,9 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String phoenixEnrichmentProcessorName = "ENRICH-PHOENIX";
 	private String kinesisSourceName = "Kinesis";
 	private String s3SinkName = "S3";	
-	private String violationPredictionPMMLModel = "DriverViolationPredictionModel";	
+	private String violationPredictionPMMLModel = "DriverViolationPredictionModel";
+	private String truckingAppAdvancedAppName = "streaming-ref-app-advanced";
+	private String samEnvName = "Dev";	
 
 	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensensionsVersion, String extensionsArtifactSuffix) {
 		this.samRESTUrl = samRestURL;
@@ -52,6 +61,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.processorSDK = new SAMProcessorComponentSDKUtils(samRESTUrl);
 		this.sourceSinkSDK = new SAMSourceSinkComponentSDKUtils(samRESTUrl);
 		this.modelRegistrySDK = new SAMModelRegistrySDKUtils(samRESTUrl);
+		this.samAppManager = new SAMAppManagerImpl(samRESTUrl);
 		
 		this.samCustomArtifactHomeDir = extensionHomeDirectory;
 		this.samCustomArtifactsVersions = extensensionsVersion;
@@ -79,6 +89,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomSinks();
 		uploadAllModels();
 		uploadAllCustomProcessorsForRefApp();
+		importRefApps();
+		deployRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
@@ -87,6 +99,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 
 		
 	}
+
 	
 	/**
 	 * Tears down the Trucking Ref App and the enviroment
@@ -102,6 +115,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		deleteAllCustomSinks();
 		deleteAllCustomModels();
 		deleteAllCustomProcessorsRefApp();
+		killAllRefApps();
+		deleteAllRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
@@ -110,7 +125,74 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 	
+	public void importRefApps() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to IMport all Ref Apps");
+		
+		importRefApps();
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Importing all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");
+	}
+	
+	public void deployRefApps() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to Deploy All Ref Apps");
+		
+		deployTruckingRefApp();
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deploying all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");
+		
+	}
+	
+	public void killAllRefApps() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to Kill All Ref Apps");
+		
+		killTruckingRefApp();
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Killing all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");
+	}
+	
+	public void deleteAllRefApps() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete All Ref Apps");
+		
+		deleteTruckingRefAppAdvanced();
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deletings all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
+	}
+	
+	
+	public void deleteTruckingRefAppAdvanced() {
+		samAppManager.deleteSAMApplication(truckingAppAdvancedAppName);
+	}
+	
+	@Test
+	public void killTruckingRefApp() {
+		samAppManager.killSAMApplication(truckingAppAdvancedAppName, KILL_TIMEOUT_SECONDS);
+	}	
+	
+	public void importTruckingRefAppAdvanced() {
+		String samImportFile = "/3.1.0.0-270/streaming-ref-app-advanced.json";
+		Resource samImportResource = new ClassPathResource(samImportFile);
+		samAppManager.importSAMApplication(truckingAppAdvancedAppName, samEnvName, samImportResource);
+	}
+	
+	
 
+	
+	public void deployTruckingRefApp() {
+		samAppManager.deploySAMApplication(truckingAppAdvancedAppName, DEPLOY_TIMEOUT_SECONDS);
+
+	}	
 
 	public void uploadAllCustomUDFsForRefApp() {
 		DateTime start = new DateTime();
@@ -299,6 +381,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		s3SinkName = s3SinkName + samCustomArtifactSuffix;
 		
 		violationPredictionPMMLModel = violationPredictionPMMLModel + samCustomArtifactSuffix;
+		
+		truckingAppAdvancedAppName = truckingAppAdvancedAppName + samCustomArtifactSuffix;
 		
 	}	
 	
