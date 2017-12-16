@@ -12,16 +12,16 @@ import org.springframework.core.io.Resource;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManager;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 
-public class TruckingRefAppDeployerApp {
+public class TruckingRefApp {
 	
-	Logger LOG = LoggerFactory.getLogger(TruckingRefAppDeployerApp.class);
+	Logger LOG = LoggerFactory.getLogger(TruckingRefApp.class);
 	private SAMAppManager samAppManager;
 	Properties appProperties;
 	private String samRestUrl;
 	private String samAppName;
 	private Integer deployTimeOut;
 	
-	public TruckingRefAppDeployerApp(String propFileLocation) {
+	public TruckingRefApp(String propFileLocation) {
 		loadAppPropertiesFile(propFileLocation);
 
 		samAppManager = new SAMAppManagerImpl(samRestUrl);
@@ -74,7 +74,7 @@ public class TruckingRefAppDeployerApp {
 			throw new RuntimeException(errMsg);
 		}
 		String propFileLocation = args[0];
-		TruckingRefAppDeployerApp deployerApp = new TruckingRefAppDeployerApp(propFileLocation);
+		TruckingRefApp deployerApp = new TruckingRefApp(propFileLocation);
 		deployerApp.deploy();
 	}
 

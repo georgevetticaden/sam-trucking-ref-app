@@ -2,7 +2,6 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 
 
-import static org.junit.Assert.assertNotNull;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.app.model.SAMApplicationStatus;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
@@ -18,7 +17,6 @@ import hortonworks.hdf.sam.sdk.udf.model.SAMUDF;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -177,7 +175,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		samAppManager.deleteSAMApplication(truckingAppAdvancedAppName);
 	}
 	
-	@Test
 	public void killTruckingRefApp() {
 		samAppManager.killSAMApplication(truckingAppAdvancedAppName, KILL_TIMEOUT_SECONDS);
 	}	
@@ -262,7 +259,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfJar = samCustomArtifactHomeDir
 				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
 		SAMUDF roundUdf = udfSDK.uploadUDF(udfConfigFile, udfJar);
-		assertNotNull(roundUdf);
 		LOG.info("The Round UDF created is: " + roundUdf.toString());
 	}	
 	
@@ -273,7 +269,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfJar = samCustomArtifactHomeDir
 				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
 		SAMUDF timeStampLongUdf = udfSDK.uploadUDF(udfConfigFile, udfJar);
-		assertNotNull(timeStampLongUdf);
 		LOG.info("The TimestmapLong UDF created is: " + timeStampLongUdf.toString());
 	}	
 	
@@ -283,7 +278,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfJar = samCustomArtifactHomeDir
 				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
 		SAMUDF udfAdded = udfSDK.uploadUDF(udfConfigFile, udfJar);
-		assertNotNull(udfAdded);
 		LOG.info("The GetWeek UDF created is: " + udfAdded.toString());
 	}	
 	
@@ -293,7 +287,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/weather-enrichment-processor-component.json";
 		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-"+ samCustomArtifactsVersions +".jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
-		assertNotNull(samComponent);
 		LOG.info("The Weather Enrichment Processor created is: " + samComponent.toString());
 	}	
 	
@@ -301,7 +294,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/normalize-model-features-processor-component.json";
 		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-" + samCustomArtifactsVersions +"a.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
-		assertNotNull(samComponent);
 		LOG.info("The Normalize Model Processor created is: " + samComponent.toString());
 	}
 	
@@ -311,7 +303,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/phoenix-enrichment-processor-component.json";
 		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-"+ samCustomArtifactsVersions +"-jar-with-dependencies.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
-		assertNotNull(samComponent);
 		LOG.info("The Phoenix EnrichmentProcessor created is: " + samComponent.toString());
 	}	
 	
@@ -320,7 +311,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String fluxFileLocation = samCustomArtifactHomeDir + "/custom-source/kinesis/config/kinesis-source-topology-component.json";
 		String customSourceJarLocation = samCustomArtifactHomeDir + "/custom-source/kinesis/sam-custom-source-kinesis-"+ samCustomArtifactsVersions +".jar";
 		SAMComponent samCustomSource = sourceSinkSDK.uploadSAMComponent(ComponentType.SOURCE, fluxFileLocation, customSourceJarLocation);
-		assertNotNull(samCustomSource);
 		LOG.info("The Kinesis Source creteated is: " + samCustomSource.toString());
 	}
 	
@@ -328,17 +318,14 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String fluxFileLocation = samCustomArtifactHomeDir + "/custom-sink/s3/config/s3-sink-topology-component.json";
 		String customSinkJarLocation = samCustomArtifactHomeDir + "/custom-sink/s3/sam-custom-sink-s3-"+ samCustomArtifactsVersions +".jar";		
 		SAMComponent samCustomSink = sourceSinkSDK.uploadSAMComponent(ComponentType.SINK, fluxFileLocation, customSinkJarLocation);
-		assertNotNull(samCustomSink);
 		LOG.info(samCustomSink.toString());
 		
 	}		
 	
-	@Test
 	public void updateViolationPredictionModelToModelRegistry() {
 		String violationPredictionModelFile = samCustomArtifactHomeDir + "/custom-pmml-model/DriverViolationLogisticalRegessionPredictionModel-pmml.xml";
 		String violationPredictionsModelConfigFile = samCustomArtifactHomeDir + "/custom-pmml-model/config/DriverViolationLogisticalRegessionPredictionModel-config.json";
 		PMMLModel violatonModel = modelRegistrySDK.addModel(violationPredictionsModelConfigFile, violationPredictionModelFile);
-		assertNotNull(violatonModel);;
 		LOG.debug("Violation PMML Model created: " + violatonModel);
 	}	
 
@@ -357,7 +344,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		LOG.info("Finished Deleting all Custom UDFs. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
 	}	
 	
-	@Test
 	public void deleteAllCustomProcessorsRefApp() {
 		
 		DateTime start = new DateTime();
