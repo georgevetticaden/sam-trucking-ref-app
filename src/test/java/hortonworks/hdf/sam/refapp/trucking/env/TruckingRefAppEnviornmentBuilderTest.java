@@ -1,4 +1,4 @@
-package env;
+package hortonworks.hdf.sam.refapp.trucking.env;
 
 import org.junit.Before;
 import org.junit.Test;
