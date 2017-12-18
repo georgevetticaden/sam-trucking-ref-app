@@ -32,7 +32,7 @@ public class StreamingRefAppTest {
 	
 	
 	
-	@Test
+	//@Test
 	public void testNormalTruckingEvents() throws Exception {
 		String testName = "Test-Normal-Event";
 		Integer testTimeOutInSeconds = 200;
@@ -59,7 +59,7 @@ public class StreamingRefAppTest {
 		assertNull( testCaseExecutionResults.get("Filter"));		
 	}
 	
-	@Test
+	///@Test
 	public void testViolationTruckingEvents() throws Exception {
 		String testName = "Test-Violation-Event";
 		Integer testTimeOutInSeconds = 200;
@@ -106,7 +106,7 @@ public class StreamingRefAppTest {
 		
 	}	
 	
-	@Test
+	//@Test
 	public void testMultipleSpeedingEventsEvents() throws Exception {
 		String testName = "Multiple-Speeding-Events";
 		Integer testTimeOutInSeconds = 200;

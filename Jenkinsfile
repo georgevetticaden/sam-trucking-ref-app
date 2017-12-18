@@ -11,7 +11,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Test') {
+        stage('Unit Test') {
             steps {
                 sh 'mvn test'
             }
@@ -20,6 +20,23 @@ pipeline {
                   junit 'target/surefire-reports/*.xml'
                 }
             }
+        }
+        stage('Package and Install') {
+            steps {
+                sh 'mvn clean package install  -DskipTests=true'
+            }
+            post {
+                always {
+                  junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('Deploy to SAM') {
+            steps {
+                sh 'chmod a+x jenkins/scripts/deploy-to-sam.sh'
+                sh './jenkins/scripts/deploy-to-sam.sh' 
+            }
+           
         }
 
     }
