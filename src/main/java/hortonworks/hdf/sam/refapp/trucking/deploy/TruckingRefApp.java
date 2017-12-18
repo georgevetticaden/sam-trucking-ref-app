@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
@@ -20,6 +21,19 @@ public class TruckingRefApp {
 	private String samRestUrl;
 	private String samAppName;
 	private Integer deployTimeOut;
+	private String samEnvName;
+	
+	public static void main(String args[]) {
+		
+		if(args == null || args.length != 1) {
+			String errMsg = "One arg with location of properties file need to be passed to app";
+			throw new RuntimeException(errMsg);
+		}
+		String propFileLocation = args[0];
+		TruckingRefApp deployerApp = new TruckingRefApp(propFileLocation);
+		deployerApp.deployNewAdvancedTruckingRefApp();;
+	}
+	
 	
 	public TruckingRefApp(String propFileLocation) {
 		loadAppPropertiesFile(propFileLocation);
@@ -64,21 +78,24 @@ public class TruckingRefApp {
 		}		
 		this.deployTimeOut = Integer.valueOf(deployTimeOutString);
 		
-		
-	}
-
-	public static void main(String args[]) {
-		
-		if(args == null || args.length != 1) {
-			String errMsg = "One arg with location of properties file need to be passed to app";
+		this.samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		if(StringUtils.isEmpty(samEnvName)) {
+			String errMsg = "Property["+AppPropertiesConstants.SAM_ENV_NAME +"] is required";
 			throw new RuntimeException(errMsg);
-		}
-		String propFileLocation = args[0];
-		TruckingRefApp deployerApp = new TruckingRefApp(propFileLocation);
-		deployerApp.deploy();
+		}			
+		
+		
 	}
 
-	public void deploy() {
+	/**
+	 * First undeploy and delete the app
+	 * Then add the new app to SAM and deploy 
+	 */
+	public void deployNewAdvancedTruckingRefApp() {
+		samAppManager.killSAMApplication(samAppName);
+		samAppManager.deleteSAMApplication(samAppName);
+		Resource appResource = new ClassPathResource("/3.1.0.0-270/streaming-ref-app-advanced.json");
+		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
 		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
 		
 	}

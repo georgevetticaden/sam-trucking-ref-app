@@ -12,6 +12,6 @@ public class TruckingRefAppTest {
 	@Test
 	public void testRefAppDeployment() {
 		TruckingRefApp deployerApp = new TruckingRefApp(TRUCKING_APP_PROPS_FILE);
-		deployerApp.deploy();
+		deployerApp.deployNewAdvancedTruckingRefApp();;
 	}
 }
