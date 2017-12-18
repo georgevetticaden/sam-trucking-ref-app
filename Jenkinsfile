@@ -25,11 +25,6 @@ pipeline {
             steps {
                 sh 'mvn clean package install  -DskipTests=true'
             }
-            post {
-                always {
-                  junit 'target/surefire-reports/*.xml'
-                }
-            }
         }
         stage('Deploy to SAM') {
             steps {
