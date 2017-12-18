@@ -18,17 +18,17 @@ public class TruckingRefAppEnviornmentBuilderTest {
 	
 
 	
-	//@Test
+	@Test
 	public void buildEnvironment() {
 		envBuilder.buildEnvironment();
 	}
 	
-	//@Test
+	@Test
 	public void tearDownEnvironment() {
 		envBuilder.tearDownEnvironment();
 	}
 	
-	//@Before
+	@Before
 	public void setup() {
 		envBuilder = new TruckingRefAppEnviornmentBuilderImpl(SAM_REST_URL, SAM_EXTENSIONS_HOME, SAM_EXTENSIONS_VERSION, SAM_CUSTOM_ARTIFACT_SUFFIX);
 	}	

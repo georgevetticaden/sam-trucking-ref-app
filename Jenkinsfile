@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Unit Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn clean -Dtest=StreamingRefAppTest test'
             }
             post {
                 always {

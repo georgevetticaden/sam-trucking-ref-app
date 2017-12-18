@@ -89,8 +89,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomSinks();
 		uploadAllModels();
 		uploadAllCustomProcessorsForRefApp();
-		importRefApps();
-		deployRefApps();
+		//importRefApps();
+		//deployRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);

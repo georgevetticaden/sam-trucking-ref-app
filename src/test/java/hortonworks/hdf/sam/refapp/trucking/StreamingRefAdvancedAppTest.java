@@ -32,7 +32,7 @@ public class StreamingRefAdvancedAppTest {
 	
 	
 	
-	//@Test
+	@Test
 	public void testNormalTruckingEvents() throws Exception {
 		String testName = "Test-Normal-Event";
 		Integer testTimeOutInSeconds = 200;
