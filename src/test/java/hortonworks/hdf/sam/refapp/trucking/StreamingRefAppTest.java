@@ -143,5 +143,11 @@ public class StreamingRefAppTest {
 		assertThat(speedAvgRoundLong, is(90L));
 		
 	}	
+	
+	@Test
+	public void dummyTest() {
+		
+	}
+	
 
 }
