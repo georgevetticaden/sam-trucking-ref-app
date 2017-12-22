@@ -1,4 +1,4 @@
-package hortonworks.hdf.sam.refapp.trucking;
+package hortonworks.hdf.sam.refapp.trucking.app;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;

@@ -1,0 +1,16 @@
+[
+	{
+		"eventTime":"2017-09-26 14:54:44.451",
+		"eventSource":"truck_geo_event",
+		"truckId":23,
+		"driverId":13,
+		"driverName":"Suresh Srinivas",
+		"routeId":4,
+		"route":"Des Moines to Chicago",
+		"eventType":"Lane Departure",
+		"latitude":41.62,
+		"longitude":-93.58,
+		"correlationId":1,
+		"geoAddress":""
+	}
+]

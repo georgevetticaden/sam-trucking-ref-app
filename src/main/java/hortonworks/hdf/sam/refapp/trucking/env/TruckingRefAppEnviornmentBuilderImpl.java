@@ -2,6 +2,7 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 
 
+import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.app.model.SAMApplicationStatus;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
@@ -180,8 +181,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}	
 	
 	public void importTruckingRefAppAdvanced() {
-		String samImportFile = "/3.1.0.0-270/streaming-ref-app-advanced.json";
-		Resource samImportResource = new ClassPathResource(samImportFile);
+		Resource samImportResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
 		samAppManager.importSAMApplication(truckingAppAdvancedAppName, samEnvName, samImportResource);
 	}
 	

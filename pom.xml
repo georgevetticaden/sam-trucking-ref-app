@@ -105,7 +105,7 @@
 			                <transformers>
 			                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 			                    	<manifestEntries>
-										<Main-Class>hortonworks.hdf.sam.refapp.trucking.deploy.TruckingRefApp</Main-Class>
+										<Main-Class>hortonworks.hdf.sam.refapp.trucking.deploy.TruckingRefAdvancedApp</Main-Class>
 									</manifestEntries>
 			                    </transformer>
 			            	</transformers>

@@ -1,0 +1,12 @@
+[
+	{
+		"eventTime":"2017-09-26 14:54:37.099",
+		"eventSource":"truck_speed_event",
+		"truckId":54,
+		"driverId":23,
+		"driverName":"Jeff Markham",
+		"routeId":1,
+		"route":"Peoria to Ceder Rapids Route 2",
+		"speed":58
+	}
+]
