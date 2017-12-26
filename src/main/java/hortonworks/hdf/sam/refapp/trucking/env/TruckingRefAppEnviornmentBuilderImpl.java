@@ -34,8 +34,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	
 	protected final Logger LOG = LoggerFactory.getLogger(TruckingRefAppEnviornmentBuilderImpl.class);
-	private static final int KILL_TIMEOUT_SECONDS = 35;
-	private static final int DEPLOY_TIMEOUT_SECONDS = 35;
+	private static final int KILL_TIMEOUT_SECONDS = 50;
+	private static final int DEPLOY_TIMEOUT_SECONDS = 50;
 	
 	
 	/* Constructor Args Required for teh Builder */
@@ -109,7 +109,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime startTime = new DateTime();
 		LOG.info("Trucking Ref App Environment creation started[" + startTime.toString() + "]");
 		
-		createSchemasInSchemaRegistry();
+		//createSchemasInSchemaRegistry();
 		uploadAllCustomUDFsForRefApp();
 		uploadAllCustomSources();
 		uploadAllCustomSinks();
@@ -117,8 +117,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomProcessorsForRefApp();
 		createServicePools();
 		createEnvironments();
-		//importRefApps();
-		//deployRefApps();
+		importRefApps();
+		deployRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
