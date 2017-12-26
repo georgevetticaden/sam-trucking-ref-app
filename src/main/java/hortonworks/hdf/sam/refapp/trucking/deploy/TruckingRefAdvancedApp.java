@@ -41,6 +41,21 @@ public class TruckingRefAdvancedApp {
 		samAppManager = new SAMAppManagerImpl(samRestUrl);
 	}
 
+
+
+	/**
+	 * First undeploy and delete the app
+	 * Then add the new app to SAM and deploy 
+	 */
+	public void deployNewAdvancedTruckingRefApp() {
+		samAppManager.killSAMApplication(samAppName);
+		samAppManager.deleteSAMApplication(samAppName);
+		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
+		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
+		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
+		
+	}
+	
 	private void loadAppPropertiesFile(String propFileLocation) {
 		appProperties = new Properties();
 		Resource appPropResource = new FileSystemResource(propFileLocation);
@@ -85,19 +100,6 @@ public class TruckingRefAdvancedApp {
 		}			
 		
 		
-	}
-
-	/**
-	 * First undeploy and delete the app
-	 * Then add the new app to SAM and deploy 
-	 */
-	public void deployNewAdvancedTruckingRefApp() {
-		samAppManager.killSAMApplication(samAppName);
-		samAppManager.deleteSAMApplication(samAppName);
-		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
-		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
-		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
-		
-	}
+	}	
 
 }

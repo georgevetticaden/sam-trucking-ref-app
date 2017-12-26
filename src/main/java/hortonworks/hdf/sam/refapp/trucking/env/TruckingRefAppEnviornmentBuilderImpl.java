@@ -4,16 +4,22 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
-import hortonworks.hdf.sam.sdk.app.model.SAMApplicationStatus;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.SAMSourceSinkComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.model.ComponentType;
 import hortonworks.hdf.sam.sdk.component.model.SAMComponent;
 import hortonworks.hdf.sam.sdk.component.model.SAMProcessorComponent;
+import hortonworks.hdf.sam.sdk.environment.manager.SAMEnvironmentManagerImpl;
+import hortonworks.hdf.sam.sdk.environment.model.SAMEnvironmentDetails;
+import hortonworks.hdf.sam.sdk.environment.model.ServiceEnvironmentMapping;
 import hortonworks.hdf.sam.sdk.modelregistry.SAMModelRegistrySDKUtils;
 import hortonworks.hdf.sam.sdk.modelregistry.model.PMMLModel;
+import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
 import hortonworks.hdf.sam.sdk.udf.SAMUDFSDKUtils;
 import hortonworks.hdf.sam.sdk.udf.model.SAMUDF;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -36,12 +42,16 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String samCustomArtifactHomeDir;
 	private String samCustomArtifactSuffix = "";
 	private String samCustomArtifactsVersions;
+	private String hdfAmbariClusterEndpointUrl;	
+	private String hdpAmbariClusterEndpointUrl;
 	
 	/* SDK clients to different SAM Entities */
 	private SAMUDFSDKUtils udfSDK;
 	private SAMProcessorComponentSDKUtils processorSDK;
 	private SAMSourceSinkComponentSDKUtils sourceSinkSDK;
 	private SAMModelRegistrySDKUtils modelRegistrySDK;	
+	private SAMServicePoolManagerImpl samServicePoolManager;
+	private SAMEnvironmentManagerImpl samEnvironmentManager;	
 	private SAMAppManagerImpl samAppManager;	
 	
 	/* Names of different entities that will be created for SAM Trucking Ref App */
@@ -55,18 +65,29 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String s3SinkName = "S3";	
 	private String violationPredictionPMMLModel = "DriverViolationPredictionModel";
 	private String truckingAppAdvancedAppName = "streaming-ref-app-advanced";
-	private String samEnvName = "Dev";	
+	private String hdfServicePoolName = "streamanalytics";
+	private String hdpServicePoolName = "datalake";
+	private String samEnvName = "Dev";
+	
 
-	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensensionsVersion, String extensionsArtifactSuffix) {
+	
+
+	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensensionsVersion, String extensionsArtifactSuffix, 
+											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl  ) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.processorSDK = new SAMProcessorComponentSDKUtils(samRESTUrl);
 		this.sourceSinkSDK = new SAMSourceSinkComponentSDKUtils(samRESTUrl);
 		this.modelRegistrySDK = new SAMModelRegistrySDKUtils(samRESTUrl);
+		this.samServicePoolManager = new SAMServicePoolManagerImpl(samRESTUrl);
+		this.samEnvironmentManager = new SAMEnvironmentManagerImpl(samRESTUrl);
 		this.samAppManager = new SAMAppManagerImpl(samRESTUrl);
 		
 		this.samCustomArtifactHomeDir = extensionHomeDirectory;
 		this.samCustomArtifactsVersions = extensensionsVersion;
+		
+		this.hdfAmbariClusterEndpointUrl = hdfAmbariClusterEndpointUrl;
+		this.hdpAmbariClusterEndpointUrl = hdpAmbariClusterEndpointUrl;
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -90,6 +111,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomSinks();
 		uploadAllModels();
 		uploadAllCustomProcessorsForRefApp();
+		createServicePools();
+		createEnvironments();
 		//importRefApps();
 		//deployRefApps();
 		
@@ -101,7 +124,10 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 
-	
+
+
+
+
 	/**
 	 * Tears down the Trucking Ref App and the enviroment
 	 */
@@ -118,6 +144,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		deleteAllCustomSinks();
 		deleteAllCustomModels();
 		deleteAllCustomProcessorsRefApp();
+		deleteAllEnvironments();
+		deleteAllServicePools();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
@@ -126,6 +154,9 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 	
+
+
+
 	public void importRefApps() {
 		DateTime start = new DateTime();
 		LOG.info("Starting to IMport all Ref Apps");
@@ -192,6 +223,38 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		samAppManager.deploySAMApplication(truckingAppAdvancedAppName, DEPLOY_TIMEOUT_SECONDS);
 
 	}	
+	
+	
+	private void createServicePools() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to create All Service Pools");
+		
+		samServicePoolManager.createServicePool(hdfServicePoolName, hdfAmbariClusterEndpointUrl, "admin", "admin");
+		LOG.info("Service Pool["+ hdfServicePoolName +"] created with Ambari Endpoint[" + hdfAmbariClusterEndpointUrl +"]");
+
+		samServicePoolManager.createServicePool(hdpServicePoolName, hdpAmbariClusterEndpointUrl, "admin", "admin");
+		LOG.info("Service Pool["+ hdpServicePoolName +"] created with Ambari Endpoint[" + hdpAmbariClusterEndpointUrl +"]");
+
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished creating All Service Pools. Time taken[ "+creationTime.getSeconds() + " seconds ]");
+		
+	}
+
+	private void createEnvironments() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to create All Enviornemnts");
+		
+		SAMEnvironmentDetails samEnvDetails = samEnvironmentManager.createSAMEnvironment(samEnvName, "Enviornment created from automated scripts", createServiceMappings());
+		LOG.info("Env["+ samEnvName +"] .Environment Details: " + samEnvDetails );
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished creating Environments. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
+
+	}
+
 
 	public void uploadAllCustomUDFsForRefApp() {
 		DateTime start = new DateTime();
@@ -394,6 +457,34 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}	
 	
+	private void deleteAllEnvironments() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Environments");	
+		
+		samEnvironmentManager.deleteSAMEnvironment(samEnvName);
+		
+		DateTime end = new DateTime();
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Environments. Time taken[ "+deleteTime.getSeconds() + " seconds ]");
+		
+	}	
+	
+	private void deleteAllServicePools() {
+		
+		DateTime start = new DateTime();
+		LOG.info("Starting to Delete all Service Pools");	
+		
+		samServicePoolManager.deleteServicePool(hdfServicePoolName);
+		samServicePoolManager.deleteServicePool(hdpServicePoolName);
+		
+		DateTime end = new DateTime();
+		Seconds deleteTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished Deleting all Service Pools. Time taken[ "+deleteTime.getSeconds() + " seconds ]");			
+	}
+
+
+
+	
 	private void updateEntityNames() {
 
 		roundUDFName = roundUDFName + samCustomArtifactSuffix;
@@ -409,9 +500,28 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 		violationPredictionPMMLModel = violationPredictionPMMLModel + samCustomArtifactSuffix;
 		
+		samEnvName = samEnvName + samCustomArtifactSuffix;
+		
+		hdfServicePoolName = hdfServicePoolName + samCustomArtifactSuffix;
+		hdpServicePoolName = hdpServicePoolName + samCustomArtifactSuffix;
+		
 		truckingAppAdvancedAppName = truckingAppAdvancedAppName + samCustomArtifactSuffix;
 		
 	}	
 	
+	private List<ServiceEnvironmentMapping> createServiceMappings() {
+		List<ServiceEnvironmentMapping> mappings = new ArrayList<ServiceEnvironmentMapping>();
+		
+		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "STORM"));
+		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "KAFKA"));
+		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "ZOOKEEPER"));
+		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "AMBARI_INFRA"));
+		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "AMBARI_METRICS"));
+		
+		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "DRUID"));
+		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "HBASE"));
+		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "HDFS"));		
+		return mappings;
+	}	
 
 }
