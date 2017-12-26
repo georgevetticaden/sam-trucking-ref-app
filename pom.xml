@@ -57,6 +57,14 @@
 		    <version>2.9.9</version>
 		</dependency>		
 		
+		
+		<!-- Data Simulator and schema creation utility -->
+		<dependency>
+			<groupId>hortonworks.hdp.refapp.trucking</groupId>
+			<artifactId>trucking-data-simulator</artifactId>
+			<version>5.0.0-SNAPSHOT</version>
+		</dependency>
+		
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

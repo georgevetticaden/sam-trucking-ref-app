@@ -17,6 +17,7 @@ import hortonworks.hdf.sam.sdk.modelregistry.model.PMMLModel;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
 import hortonworks.hdf.sam.sdk.udf.SAMUDFSDKUtils;
 import hortonworks.hdf.sam.sdk.udf.model.SAMUDF;
+import hortonworks.hdp.refapp.trucking.simulator.schemaregistry.TruckSchemaRegistryLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private SAMServicePoolManagerImpl samServicePoolManager;
 	private SAMEnvironmentManagerImpl samEnvironmentManager;	
 	private SAMAppManagerImpl samAppManager;	
+	private TruckSchemaRegistryLoader schemaRegistryLoader;
 	
 	/* Names of different entities that will be created for SAM Trucking Ref App */
 	private String roundUDFName = "ROUND";
@@ -69,11 +71,12 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String hdpServicePoolName = "datalake";
 	private String samEnvName = "Dev";
 	
+	
 
 	
 
 	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensensionsVersion, String extensionsArtifactSuffix, 
-											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl  ) {
+											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl  ) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.processorSDK = new SAMProcessorComponentSDKUtils(samRESTUrl);
@@ -88,6 +91,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 		this.hdfAmbariClusterEndpointUrl = hdfAmbariClusterEndpointUrl;
 		this.hdpAmbariClusterEndpointUrl = hdpAmbariClusterEndpointUrl;
+		this.schemaRegistryLoader = new TruckSchemaRegistryLoader(schemaRegistryUrl);
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -105,7 +109,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime startTime = new DateTime();
 		LOG.info("Trucking Ref App Environment creation started[" + startTime.toString() + "]");
 		
-		
+		createSchemasInSchemaRegistry();
 		uploadAllCustomUDFsForRefApp();
 		uploadAllCustomSources();
 		uploadAllCustomSinks();
@@ -123,6 +127,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 
 		
 	}
+
 
 
 
@@ -223,6 +228,18 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		samAppManager.deploySAMApplication(truckingAppAdvancedAppName, DEPLOY_TIMEOUT_SECONDS);
 
 	}	
+	
+
+	private void createSchemasInSchemaRegistry() {
+		DateTime start = new DateTime();
+		LOG.info("Starting to create All Schemas in Scehma Registry");
+		
+		schemaRegistryLoader.loadSchemaRegistry();
+		
+		DateTime end = new DateTime();
+		Seconds creationTime = Seconds.secondsBetween(start, end);
+		LOG.info("Finished creating All Schemas in SChema Registry. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
+	}
 	
 	
 	private void createServicePools() {
