@@ -16,6 +16,7 @@ import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
 import hortonworks.hdf.sam.sdk.testcases.model.SamTestComponent;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +33,9 @@ import org.springframework.core.io.Resource;
 public class StreamingRefAppTest extends BaseTest{
 
 	
-	private static final String SAM_APP_NAME = "streaming-ref-app";
+	private static final String SAM_APP_NAME = "streaming-ref-app-junit";
+	
+	private static Logger LOG = LoggerFactory.getLogger(StreamingRefAppTest.class);
 	
 	private static final String TEST_1_NORMAL_EVENT_TEST_CASE = "Test-Normal-Event";
 	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/normal-event-test/speed-stream-test-data.json";
@@ -47,33 +50,37 @@ public class StreamingRefAppTest extends BaseTest{
 	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/multiple-speeding-event-test/speed-stream-test-data.json";
 	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/multiple-speeding-event-test/geo-stream-test-data.json";		
 	
-	
-
-	
-	public StreamingRefAppTest() {
-		loadAppPropertiesFile();
-	}
-	
-	@Before
 	/**
 	 * For each test does the following:
 	 * 	1. Import the SAM App you want to test
 	 *  2. Create the TEst Case
 	 */
-	public void setup() {
+	@BeforeClass
+	public static void setup() {
+		
+		LOG.info("Creating SAM ServicePools");
+		createServicePools();
+		
+		LOG.info("Creating SAM Environments");
+		createEnv();
+		
+		LOG.info("Importing App["+SAM_APP_NAME + "]");
 		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
-		LOG.info("Deleting App["+SAM_APP_NAME + "] if it exists");
-		deleteSAMApp(SAM_APP_NAME);
-		LOG.info("Importing App["+SAM_APP_NAME + "] if it exists");
 		importSAMApp(SAM_APP_NAME, appResource);
 		
 	}
 	
-	
-	
-	@After
-	public void tearDown() {
+
+	@AfterClass
+	public static void tearDown() {
+		LOG.info("Deleting  SAM App[" + SAM_APP_NAME + "]");
 		deleteSAMApp(SAM_APP_NAME);
+		
+		LOG.info("Deleting  SAM Envs");
+		deleteEnv();
+		
+		LOG.info("Deleting  SAM Service Pools");
+		deleteServicePools();
 	}
 	
 	
@@ -206,13 +213,13 @@ public class StreamingRefAppTest extends BaseTest{
 
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
-		Resource geoStreamTestData = createClassPathResource(TEST_1_GEO_STREAM_TEST_DATA);	
+		Resource geoStreamTestData = createClassPathResource(TEST_1_GEO_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("GeoStream", geoStreamTestData);
 		
-		Resource speedStreamTestData = createClassPathResource(TEST_1_SPEED_STREAM_TEST_DATA);	
+		Resource speedStreamTestData = createClassPathResource(TEST_1_SPEED_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("SpeedStream", speedStreamTestData);
 		
-		createTestCase(SAM_APP_NAME, TEST_1_NORMAL_EVENT_TEST_CASE, testDataForSources);
+		createTestCase(SAM_APP_NAME, TEST_1_NORMAL_EVENT_TEST_CASE, testDataForSources, LOG);
 		
 
 	}		
@@ -220,26 +227,26 @@ public class StreamingRefAppTest extends BaseTest{
 	private void createViolationEventTestCase() {
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
-		Resource geoStreamTestData = createClassPathResource(TEST_2_GEO_STREAM_TEST_DATA);	
+		Resource geoStreamTestData = createClassPathResource(TEST_2_GEO_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("GeoStream", geoStreamTestData);
 		
-		Resource speedStreamTestData = createClassPathResource(TEST_2_SPEED_STREAM_TEST_DATA);	
+		Resource speedStreamTestData = createClassPathResource(TEST_2_SPEED_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("SpeedStream", speedStreamTestData);
 		
-		createTestCase(SAM_APP_NAME, TEST_2_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources);
+		createTestCase(SAM_APP_NAME, TEST_2_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
 		
 	}	
 	
 	private void createMultipleSpeedingEventsTestCase() {
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
-		Resource geoStreamTestData = createClassPathResource(TEST_3_GEO_STREAM_TEST_DATA);	
+		Resource geoStreamTestData = createClassPathResource(TEST_3_GEO_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("GeoStream", geoStreamTestData);
 		
-		Resource speedStreamTestData = createClassPathResource(TEST_3_SPEED_STREAM_TEST_DATA);	
+		Resource speedStreamTestData = createClassPathResource(TEST_3_SPEED_STREAM_TEST_DATA, LOG);	
 		testDataForSources.put("SpeedStream", speedStreamTestData);
 		
-		createTestCase(SAM_APP_NAME, TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources);
+		createTestCase(SAM_APP_NAME, TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
 		
 	}	
 	

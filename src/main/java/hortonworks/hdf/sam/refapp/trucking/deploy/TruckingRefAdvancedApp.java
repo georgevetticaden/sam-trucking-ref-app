@@ -17,12 +17,13 @@ public class TruckingRefAdvancedApp {
 	
 	Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedApp.class);
 	private SAMAppManager samAppManager;
-	Properties appProperties;
+	static Properties appProperties;
 	private String samRestUrl;
 	private String samAppName;
 	private Integer deployTimeOut;
 	private String samEnvName;
 	
+
 	public static void main(String args[]) {
 		
 		if(args == null || args.length != 1) {
