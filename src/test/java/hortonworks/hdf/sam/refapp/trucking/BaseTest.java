@@ -8,19 +8,16 @@ import hortonworks.hdf.sam.sdk.environment.manager.SAMEnvironmentManagerImpl;
 import hortonworks.hdf.sam.sdk.environment.model.ServiceEnvironmentMapping;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManager;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
-import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerTest;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -182,14 +179,14 @@ public class BaseTest {
 	private static List<ServiceEnvironmentMapping> createServiceMappings() {
 		List<ServiceEnvironmentMapping> mappings = new ArrayList<ServiceEnvironmentMapping>();
 		
-		String hdfServicePool = SAMServicePoolManagerTest.HDF_SERVICE_POOL_NAME_TO_CREATE;
+		String hdfServicePool = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "STORM"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "KAFKA"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "ZOOKEEPER"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "AMBARI_INFRA"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "AMBARI_METRICS"));
 		
-		String hdpServicePool = SAMServicePoolManagerTest.HDP_SERVICE_POOL_NAME_TO_CREATE;
+		String hdpServicePool = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "DRUID"));
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "HBASE"));
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "HDFS"));		
