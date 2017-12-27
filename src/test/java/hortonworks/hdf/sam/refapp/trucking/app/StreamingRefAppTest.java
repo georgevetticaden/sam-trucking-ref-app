@@ -168,7 +168,7 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(avgSpeedFromWindow, is(79.0));
 		
 		/** Validate that the speeding violation Filter is correct. Filter shoudl recognize this event as not speeding since it is < 80 */
-		assertNull(testCaseExecutionResults.get("Speeding"));
+		assertNull(testCaseExecutionResults.get("Filter-Speed"));
 		
 	}	
 	
@@ -196,15 +196,15 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(avgSpeedFromWindow, is(89.5));
 		
 		/* Validate that the speeding violation Filter is correct. Filter shoudl recognize this event as  speeding since it is > 80 */
-		assertThat(testCaseExecutionResults.get("Speeding").size(), is(1));
-		assertNotNull(testCaseExecutionResults.get("Speeding").get(0));
-		SamTestComponent speedingFilterComponent = testCaseExecutionResults.get("Speeding").get(0);
+		assertThat(testCaseExecutionResults.get("Filter-Speed").size(), is(1));
+		assertNotNull(testCaseExecutionResults.get("Filter-Speed").get(0));
+		SamTestComponent speedingFilterComponent = testCaseExecutionResults.get("Filter-Speed").get(0);
 		Map<String, String> speedingFilterComponentFieldAndValues = speedingFilterComponent.getFieldsAndValues();
 		assertNotNull(speedingFilterComponentFieldAndValues);
 		
 		/* Validate the projection rounded correctly */
-		assertNotNull(testCaseExecutionResults.get("PROJECTION").get(0));
-		SamTestComponent projectionComponent = testCaseExecutionResults.get("PROJECTION").get(0);
+		assertNotNull(testCaseExecutionResults.get("Round").get(0));
+		SamTestComponent projectionComponent = testCaseExecutionResults.get("Round").get(0);
 		Map<String, String> projectionComponentFieldAndValues = projectionComponent.getFieldsAndValues();
 		assertNotNull(projectionComponentFieldAndValues);
 		String speedAvgRoundString = projectionComponentFieldAndValues.get("speed_AVG_Round");

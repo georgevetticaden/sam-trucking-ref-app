@@ -11,4 +11,4 @@ set +x
 
 
 set -x
-java -jar target/${NAME}-${VERSION}-shaded.jar jenkins/app-properties/trucking-ref-app.properties
+java -cp target/${NAME}-${VERSION}-shaded.jar  hortonworks.hdf.sam.refapp.trucking.deploy.TruckingRefApp jenkins/app-properties/trucking-ref-app.properties
