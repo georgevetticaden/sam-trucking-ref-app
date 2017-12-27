@@ -98,7 +98,7 @@ public class StreamingRefAppTest extends BaseTest{
 		
 		createNormalEventTestCase();
 		
-		Integer testTimeOutInSeconds = 30;
+		Integer testTimeOutInSeconds = 200;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
