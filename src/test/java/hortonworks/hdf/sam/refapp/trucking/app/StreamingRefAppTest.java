@@ -58,6 +58,8 @@ public class StreamingRefAppTest extends BaseTest{
 	@BeforeClass
 	public static void setup() {
 		
+		LOG.info("Setup for Test Started");
+		
 		LOG.info("Creating SAM ServicePools");
 		createServicePools();
 		
@@ -68,11 +70,14 @@ public class StreamingRefAppTest extends BaseTest{
 		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
 		importSAMApp(SAM_APP_NAME, appResource);
 		
+		LOG.info("Setup for Test Completed");
 	}
 	
 
 	@AfterClass
 	public static void tearDown() {
+		LOG.info("Teardown for Test Started");
+		
 		LOG.info("Deleting  SAM App[" + SAM_APP_NAME + "]");
 		deleteSAMApp(SAM_APP_NAME);
 		
@@ -81,6 +86,8 @@ public class StreamingRefAppTest extends BaseTest{
 		
 		LOG.info("Deleting  SAM Service Pools");
 		deleteServicePools();
+		
+		LOG.info("Teardown for Test Completed");
 	}
 	
 	
