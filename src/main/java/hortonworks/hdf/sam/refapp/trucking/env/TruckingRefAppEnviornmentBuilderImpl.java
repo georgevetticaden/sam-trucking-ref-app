@@ -3,6 +3,7 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 
 import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
+import hortonworks.hdf.sam.refapp.trucking.simulator.schemaregistry.TruckSchemaRegistryLoader;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.SAMSourceSinkComponentSDKUtils;
@@ -17,7 +18,6 @@ import hortonworks.hdf.sam.sdk.modelregistry.model.PMMLModel;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
 import hortonworks.hdf.sam.sdk.udf.SAMUDFSDKUtils;
 import hortonworks.hdf.sam.sdk.udf.model.SAMUDF;
-import hortonworks.hdp.refapp.trucking.simulator.schemaregistry.TruckSchemaRegistryLoader;
 
 import java.util.ArrayList;
 import java.util.List;
