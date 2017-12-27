@@ -109,7 +109,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime startTime = new DateTime();
 		LOG.info("Trucking Ref App Environment creation started[" + startTime.toString() + "]");
 		
-		//createSchemasInSchemaRegistry();
+		createSchemasInSchemaRegistry();
 		uploadAllCustomUDFsForRefApp();
 		uploadAllCustomSources();
 		uploadAllCustomSinks();
@@ -372,7 +372,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public void uploadNormalizeModelSAMProcessor() {
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/normalize-model-features-processor-component.json";
-		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-" + samCustomArtifactsVersions +"a.jar";
+		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-" + samCustomArtifactsVersions +".jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
 		LOG.info("The Normalize Model Processor created is: " + samComponent.toString());
 	}

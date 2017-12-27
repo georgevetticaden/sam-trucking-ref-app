@@ -10,8 +10,8 @@ public class TruckingRefAppEnviornmentBuilderTest {
 	
 	
 	protected static final String SAM_REST_URL = "http://hdf-3-1-build3.field.hortonworks.com:7777/api/v1";	
-	protected static final String SAM_EXTENSIONS_HOME = "/Users/gvetticaden/Dropbox/Hortonworks/HDP-Emerging-Products/A-HDF/A-Master-Demo/all-custom-extensions/3.1/3.1.0.0-412/Sam-Custom-Extensions";
-	protected static final String SAM_EXTENSIONS_VERSION = "3.1.0.0-412";
+	protected static final String SAM_EXTENSIONS_HOME = "/Users/gvetticaden/Dropbox/Hortonworks/HDP-Emerging-Products/A-HDF/A-Master-Demo/all-custom-extensions/3.1/3.1.0.0-420/Sam-Custom-Extensions";
+	protected static final String SAM_EXTENSIONS_VERSION = "3.1.0.0-420";
 	protected static final String SAM_CUSTOM_ARTIFACT_SUFFIX="_AUTOCREATED";
 	private static final String HDF_SERVICE_POOL_AMBRI_URL = "http://hdf-3-1-build0.field.hortonworks.com:8080/api/v1/clusters/streamanalytics";	
 	private static final String HDP_LAKE_SERVICE_POOL_AMBRI_URL = "http://hdp-2-6-3-ga0.field.hortonworks.com:8080/api/v1/clusters/datalake";
