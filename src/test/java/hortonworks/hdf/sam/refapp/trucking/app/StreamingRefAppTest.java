@@ -221,10 +221,10 @@ public class StreamingRefAppTest extends BaseTest{
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
 		Resource geoStreamTestData = createClassPathResource(TEST_1_GEO_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("GeoStream", geoStreamTestData);
+		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
 		
 		Resource speedStreamTestData = createClassPathResource(TEST_1_SPEED_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("SpeedStream", speedStreamTestData);
+		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
 		
 		createTestCase(SAM_APP_NAME, TEST_1_NORMAL_EVENT_TEST_CASE, testDataForSources, LOG);
 		
@@ -235,10 +235,10 @@ public class StreamingRefAppTest extends BaseTest{
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
 		Resource geoStreamTestData = createClassPathResource(TEST_2_GEO_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("GeoStream", geoStreamTestData);
+		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
 		
 		Resource speedStreamTestData = createClassPathResource(TEST_2_SPEED_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("SpeedStream", speedStreamTestData);
+		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
 		
 		createTestCase(SAM_APP_NAME, TEST_2_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
 		
@@ -248,10 +248,10 @@ public class StreamingRefAppTest extends BaseTest{
 		/* Create map of test data for each source in the app */
 		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
 		Resource geoStreamTestData = createClassPathResource(TEST_3_GEO_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("GeoStream", geoStreamTestData);
+		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
 		
 		Resource speedStreamTestData = createClassPathResource(TEST_3_SPEED_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("SpeedStream", speedStreamTestData);
+		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
 		
 		createTestCase(SAM_APP_NAME, TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
 		
