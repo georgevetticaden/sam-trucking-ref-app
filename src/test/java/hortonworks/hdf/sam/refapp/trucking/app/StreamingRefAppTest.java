@@ -119,7 +119,7 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(latDouble,  is(40.7));
 		
 		/* Validate the that the filter worked in that no  events were considered violaiton events */
-		assertNull( testCaseExecutionResults.get("Filter"));		
+		assertNull( testCaseExecutionResults.get("EventType"));		
 	}
 	
 	@Test
@@ -150,9 +150,9 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(latDouble,  is(41.62));
 		
 		/* Validate the that the filter worked in that and the violation event got passed to filter */
-		assertNotNull( testCaseExecutionResults.get("Filter"));	
-		assertThat(testCaseExecutionResults.get("Filter").size(), is(1));
-		SamTestComponent filterResult = testCaseExecutionResults.get("Filter").get(0);
+		assertNotNull( testCaseExecutionResults.get("EventType"));	
+		assertThat(testCaseExecutionResults.get("EventType").size(), is(1));
+		SamTestComponent filterResult = testCaseExecutionResults.get("EventType").get(0);
 		Map<String, String> filterFieldAndValues = filterResult.getFieldsAndValues();
 		assertNotNull(filterFieldAndValues);
 		
@@ -168,7 +168,7 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(avgSpeedFromWindow, is(79.0));
 		
 		/** Validate that the speeding violation Filter is correct. Filter shoudl recognize this event as not speeding since it is < 80 */
-		assertNull(testCaseExecutionResults.get("Filter-Speed"));
+		assertNull(testCaseExecutionResults.get("isDriverSpeeding"));
 		
 	}	
 	
@@ -196,9 +196,9 @@ public class StreamingRefAppTest extends BaseTest{
 		assertThat(avgSpeedFromWindow, is(89.5));
 		
 		/* Validate that the speeding violation Filter is correct. Filter shoudl recognize this event as  speeding since it is > 80 */
-		assertThat(testCaseExecutionResults.get("Filter-Speed").size(), is(1));
-		assertNotNull(testCaseExecutionResults.get("Filter-Speed").get(0));
-		SamTestComponent speedingFilterComponent = testCaseExecutionResults.get("Filter-Speed").get(0);
+		assertThat(testCaseExecutionResults.get("isDriverSpeeding").size(), is(1));
+		assertNotNull(testCaseExecutionResults.get("isDriverSpeeding").get(0));
+		SamTestComponent speedingFilterComponent = testCaseExecutionResults.get("isDriverSpeeding").get(0);
 		Map<String, String> speedingFilterComponentFieldAndValues = speedingFilterComponent.getFieldsAndValues();
 		assertNotNull(speedingFilterComponentFieldAndValues);
 		
