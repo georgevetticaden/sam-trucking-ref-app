@@ -24,7 +24,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class BaseTest {
+public abstract class BaseTest {
 	
 	
 	
@@ -37,24 +37,19 @@ public class BaseTest {
 	
 	protected static Properties appProperties;
 	
-	static {
-		loadAppPropertiesFile();
-		String samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
-		samAppManager = new SAMAppManagerImpl(samRestUrl);
-		samTestCaseManager = new SAMTestCaseManagerImpl(samRestUrl);
-		samServicePoolManager = new SAMServicePoolManagerImpl(samRestUrl);
-		samEnvironmentManager = new SAMEnvironmentManagerImpl(samRestUrl);
-	}
+	
 	
 
 	
-	protected  static void loadAppPropertiesFile() {
+
+	
+	protected  static void loadAppPropertiesFile(String defaultPropFile) {
 		appProperties = new Properties();
 		
 		String appPropertiesFile = System.getProperty("app.properties.file.location");
 		Resource appPropResource = null;
 		if(StringUtils.isEmpty(appPropertiesFile)) {
-			appPropertiesFile = "/app-properties/trucking-ref-app.properties";
+			appPropertiesFile = defaultPropFile;
 			appPropResource = new ClassPathResource(appPropertiesFile);
 		} else
 			appPropResource = new FileSystemResource(appPropertiesFile);

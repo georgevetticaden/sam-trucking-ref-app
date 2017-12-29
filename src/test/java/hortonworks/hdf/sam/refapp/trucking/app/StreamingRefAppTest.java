@@ -11,6 +11,9 @@ import java.util.Map;
 
 import hortonworks.hdf.sam.refapp.trucking.BaseTest;
 import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
+import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
+import hortonworks.hdf.sam.sdk.environment.manager.SAMEnvironmentManagerImpl;
+import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
 import hortonworks.hdf.sam.sdk.testcases.model.SamTestComponent;
@@ -38,17 +41,26 @@ public class StreamingRefAppTest extends BaseTest{
 	private static Logger LOG = LoggerFactory.getLogger(StreamingRefAppTest.class);
 	
 	private static final String TEST_1_NORMAL_EVENT_TEST_CASE = "Test-Normal-Event";
-	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/normal-event-test/speed-stream-test-data.json";
-	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/normal-event-test/geo-stream-test-data.json";
+	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/normal-event-test/speed-stream-test-data.json";
+	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/normal-event-test/geo-stream-test-data.json";
 	
 	
 	private static final String TEST_2_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Event";
-	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/violation-event-test/speed-stream-test-data.json";
-	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/violation-event-test/geo-stream-test-data.json";	
+	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/violation-event-test/speed-stream-test-data.json";
+	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/violation-event-test/geo-stream-test-data.json";	
 	
 	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Multiple-Speeding-Events";
-	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/multiple-speeding-event-test/speed-stream-test-data.json";
-	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/multiple-speeding-event-test/geo-stream-test-data.json";		
+	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/multiple-speeding-event-test/speed-stream-test-data.json";
+	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/multiple-speeding-event-test/geo-stream-test-data.json";		
+	
+	static {
+		loadAppPropertiesFile("/app-properties/junit-trucking-ref-app.properties");
+		String samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
+		samAppManager = new SAMAppManagerImpl(samRestUrl);
+		samTestCaseManager = new SAMTestCaseManagerImpl(samRestUrl);
+		samServicePoolManager = new SAMServicePoolManagerImpl(samRestUrl);
+		samEnvironmentManager = new SAMEnvironmentManagerImpl(samRestUrl);
+	}	
 	
 	/**
 	 * For each test does the following:

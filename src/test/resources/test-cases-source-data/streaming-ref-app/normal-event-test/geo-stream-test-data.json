@@ -1,0 +1,16 @@
+[
+	{
+		"eventTime":"2017-09-26 14:54:32.64",
+		"eventSource":"truck_geo_event",
+		"truckId":54,
+		"driverId":23,
+		"driverName":"Jeff Markham",
+		"routeId":1,
+		"route":"Peoria to Ceder Rapids Route 2",
+		"eventType":"Normal",
+		"latitude":40.7,
+		"longitude":-89.52,
+		"correlationId":1,
+		"geoAddress":""
+	}
+]

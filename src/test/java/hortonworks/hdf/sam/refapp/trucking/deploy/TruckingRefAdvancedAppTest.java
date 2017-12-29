@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 public class TruckingRefAdvancedAppTest {
 
-	private static final String TRUCKING_APP_PROPS_FILE = "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sam-trucking-ref-app/src/test/resources/app-properties/trucking-ref-app.properties";
+	private static final String TRUCKING_APP_PROPS_FILE = "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sam-trucking-ref-app/src/test/resources/app-properties/trucking-ref-app-advanced.properties";
 	Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedAppTest.class);
 	
 	@Test
