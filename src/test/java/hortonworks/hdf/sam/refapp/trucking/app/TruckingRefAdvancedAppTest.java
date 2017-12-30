@@ -127,7 +127,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertNull( testCaseExecutionResults.get("EventType"));
 		
 		//Validate the non-violation event goes to the split component
-		assertNotNull(testCaseExecutionResults.get(key))
+		assertNotNull(testCaseExecutionResults.get("Split"));
 		
 		
 	}
