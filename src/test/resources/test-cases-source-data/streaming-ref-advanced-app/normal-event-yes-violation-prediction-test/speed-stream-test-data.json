@@ -1,0 +1,12 @@
+[
+	{
+		"eventTime":"2017-12-30 07:36:06.77",
+		"eventSource":"truck_speed_event",
+		"truckId":48,
+		"driverId":10,
+		"driverName":"George Vetticaden",
+		"routeId":1,
+		"route":"Saint Louis to Tulsa",
+		"speed":60
+	}
+]

@@ -33,12 +33,12 @@ import org.springframework.core.io.Resource;
  * @author gvetticaden
  *
  */
-public class StreamingRefAdvancedAppTest extends BaseTest{
+public class TruckingRefAdvancedAppTest extends BaseTest{
 
 	
 	private static final String SAM_APP_NAME = "streaming-ref-advacned-app-junit";
 	
-	private static Logger LOG = LoggerFactory.getLogger(StreamingRefAdvancedAppTest.class);
+	private static Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedAppTest.class);
 	
 	private static final String TEST_1_NORMAL_EVENT_TEST_CASE = "Test-Normal-Event";
 	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/speed-stream-test-data.json";

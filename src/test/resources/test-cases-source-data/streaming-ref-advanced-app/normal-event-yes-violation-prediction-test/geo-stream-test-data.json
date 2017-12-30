@@ -1,0 +1,16 @@
+[
+	{
+		"eventTime":"2017-12-30 07:36:06.77",
+		"eventSource":"truck_geo_event",
+		"truckId":48,
+		"driverId":10,
+		"driverName":"George Vetticaden",
+		"routeId":1,
+		"route":"Saint Louis to Tulsa",
+		"eventType":"Normal",
+		"latitude":38.64,
+		"longitude":-90.18,
+		"correlationId":1,
+		"geoAddress":""
+	}
+]
