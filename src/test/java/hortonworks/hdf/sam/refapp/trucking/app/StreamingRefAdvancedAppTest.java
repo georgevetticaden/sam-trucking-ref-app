@@ -41,17 +41,10 @@ public class StreamingRefAdvancedAppTest extends BaseTest{
 	private static Logger LOG = LoggerFactory.getLogger(StreamingRefAdvancedAppTest.class);
 	
 	private static final String TEST_1_NORMAL_EVENT_TEST_CASE = "Test-Normal-Event";
-	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-test/speed-stream-test-data.json";
-	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-test/geo-stream-test-data.json";
+	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/speed-stream-test-data.json";
+	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/geo-stream-test-data.json";
 	
-	
-	private static final String TEST_2_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Event";
-	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/violation-event-test/speed-stream-test-data.json";
-	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/violation-event-test/geo-stream-test-data.json";	
-	
-	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Multiple-Speeding-Events";
-	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/multiple-speeding-event-test/speed-stream-test-data.json";
-	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/multiple-speeding-event-test/geo-stream-test-data.json";		
+		
 	
 	static {
 		loadAppPropertiesFile("/app-properties/junit-trucking-ref-app-advanced.properties");
@@ -152,31 +145,6 @@ public class StreamingRefAdvancedAppTest extends BaseTest{
 
 	}		
 	
-	private void createViolationEventTestCase() {
-		/* Create map of test data for each source in the app */
-		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
-		Resource geoStreamTestData = createClassPathResource(TEST_2_GEO_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
-		
-		Resource speedStreamTestData = createClassPathResource(TEST_2_SPEED_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
-		
-		createTestCase(SAM_APP_NAME, TEST_2_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
-		
-	}	
-	
-	private void createMultipleSpeedingEventsTestCase() {
-		/* Create map of test data for each source in the app */
-		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
-		Resource geoStreamTestData = createClassPathResource(TEST_3_GEO_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
-		
-		Resource speedStreamTestData = createClassPathResource(TEST_3_SPEED_STREAM_TEST_DATA, LOG);	
-		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
-		
-		createTestCase(SAM_APP_NAME, TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, testDataForSources, LOG);
-		
-	}	
 	
 
 }

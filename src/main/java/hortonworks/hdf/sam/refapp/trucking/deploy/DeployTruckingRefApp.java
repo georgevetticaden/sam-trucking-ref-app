@@ -13,9 +13,9 @@ import org.springframework.core.io.Resource;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManager;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 
-public class TruckingRefAdvancedApp {
+public class DeployTruckingRefApp {
 	
-	Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedApp.class);
+	Logger LOG = LoggerFactory.getLogger(DeployTruckingRefApp.class);
 	private SAMAppManager samAppManager;
 	static Properties appProperties;
 	private String samRestUrl;
@@ -31,12 +31,12 @@ public class TruckingRefAdvancedApp {
 			throw new RuntimeException(errMsg);
 		}
 		String propFileLocation = args[0];
-		TruckingRefAdvancedApp deployerApp = new TruckingRefAdvancedApp(propFileLocation);
-		deployerApp.deployNewAdvancedTruckingRefApp();;
+		DeployTruckingRefApp deployerApp = new DeployTruckingRefApp(propFileLocation);
+		deployerApp.deployNewTruckingRefApp();;
 	}
 	
 	
-	public TruckingRefAdvancedApp(String propFileLocation) {
+	public DeployTruckingRefApp(String propFileLocation) {
 		loadAppPropertiesFile(propFileLocation);
 
 		samAppManager = new SAMAppManagerImpl(samRestUrl);
@@ -48,10 +48,10 @@ public class TruckingRefAdvancedApp {
 	 * First undeploy and delete the app
 	 * Then add the new app to SAM and deploy 
 	 */
-	public void deployNewAdvancedTruckingRefApp() {
+	public void deployNewTruckingRefApp() {
 		samAppManager.killSAMApplication(samAppName);
 		samAppManager.deleteSAMApplication(samAppName);
-		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
+		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
 		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
 		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
 		
