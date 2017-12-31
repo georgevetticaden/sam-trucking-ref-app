@@ -1,0 +1,12 @@
+[
+	{
+		"eventTime":"2017-09-26 14:54:45.163",
+		"eventSource":"truck_speed_event",
+		"truckId":23,
+		"driverId":13,
+		"driverName":"Suresh Srinivas",
+		"routeId":4,
+		"route":"Des Moines to Chicago",
+		"speed":79
+	}
+]

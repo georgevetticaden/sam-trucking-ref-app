@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Unit Test') {
             steps {
-                sh 'mvn clean -Dtest=TruckingRefAppTest test'
+                sh 'mvn clean -Dtest=TruckingRefAdvancedAppTest test'
             }
             post {
                 always {
