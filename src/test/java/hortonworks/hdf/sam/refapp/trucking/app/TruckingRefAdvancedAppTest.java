@@ -252,6 +252,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		String driverWagePlan = "miles";
 		assertThat(hrEnrichmentComponentFieldAndValues.get("driverCertification"), is(driverCert));
 		assertThat(hrEnrichmentComponentFieldAndValues.get("driverWagePlan"), is(driverWagePlan));
+		assertThat(hrEnrichmentComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
+
 		
 		//Validate the Timesheet Enrichment values
 		assertNotNull(testCaseExecutionResults.get("ENRICH-Timesheet"));
@@ -262,9 +264,9 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		String driverFatigueByMiles = "0";
 		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("driverFatigueByHours"), is(driverFatigueByHours));
 		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("driverFatigueByMiles"), is(driverFatigueByMiles));	
+		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
 		
 		//Validate the Weather Enrichment values
-		
 		assertNotNull(testCaseExecutionResults.get("ENRICH-WEATHER"));
 		assertThat(testCaseExecutionResults.get("ENRICH-WEATHER").size(), is(1));
 		SamTestComponent weatherEnrichComponent = testCaseExecutionResults.get("ENRICH-WEATHER").get(0);
@@ -272,6 +274,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertNotNull(weatherEnrichmentComponentFieldAndValues.get("Model_Feature_FoggyWeather"));
 		assertNotNull(weatherEnrichmentComponentFieldAndValues.get("Model_Feature_RainyWeather"));	
 		assertNotNull(weatherEnrichmentComponentFieldAndValues.get("Model_Feature_WindyWeather"));	
+		assertThat(weatherEnrichmentComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
+
 	
 
 		//Validate the joins of the three enrichments
@@ -294,10 +298,10 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertThat(testCaseExecutionResults.get("NORMALIZE-MODEL-FEATURES").size(), is(1));
 		SamTestComponent normalizeModelComponent = testCaseExecutionResults.get("NORMALIZE-MODEL-FEATURES").get(0);
 		Map<String, String>normlaizeModelComponentFieldAndValues = normalizeModelComponent.getFieldsAndValues();
-		String driverCertNormalized = "1";
-		String driverWagePlanNormalized = "0";
-		String driverFatigueByMilesNormalized = "2.796";
-		String driverFatigueByHoursNormalized = "0.48";
+		String driverCertNormalized = "0";
+		String driverWagePlanNormalized = "1";
+		String driverFatigueByMilesNormalized = "0.0";
+		String driverFatigueByHoursNormalized = "0.0";
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_Certification"), is(driverCertNormalized));
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_WagePlan"), is(driverWagePlanNormalized));
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_FatigueByHours"), is(driverFatigueByHoursNormalized));
@@ -311,7 +315,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertThat(testCaseExecutionResults.get("Prediction").size(), is(1));
 		SamTestComponent predictionFilterComponent = testCaseExecutionResults.get("Prediction").get(0);
 		Map<String, String> predictionFilterComponentFieldAndValues = predictionFilterComponent.getFieldsAndValues();
-		assertThat(predictionFilterComponentFieldAndValues.get("ViolationPredicted"), is("Y"));
+		String expectedNormalizedYesPrediction = "yes";
+		assertThat(predictionFilterComponentFieldAndValues.get("ViolationPredicted"), is(expectedNormalizedYesPrediction));
 
 	}	
 	
