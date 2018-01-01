@@ -1,27 +1,22 @@
 package hortonworks.hdf.sam.refapp.trucking.deploy;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import hortonworks.hdf.sam.sdk.app.manager.SAMAppManager;
-import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
-
-public class DeployTruckingRefApp {
+public class DeployTruckingRefApp extends BaseDeploy{
 	
-	Logger LOG = LoggerFactory.getLogger(DeployTruckingRefApp.class);
-	private SAMAppManager samAppManager;
-	static Properties appProperties;
-	private String samRestUrl;
-	private String samAppName;
-	private Integer deployTimeOut;
-	private String samEnvName;
+	private static final String TEST_1_NORMAL_EVENT_TEST_CASE = "Test-Normal-Event-AUTOCREATED";
+	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/normal-event-test/speed-stream-test-data.json";
+	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/normal-event-test/geo-stream-test-data.json";
+	
+	
+	private static final String TEST_2_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Even-AUTOCREATED";
+	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/violation-event-test/speed-stream-test-data.json";
+	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/violation-event-test/geo-stream-test-data.json";	
+	
+	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Multiple-Speeding-Events-AUTOCREATED";
+	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/multiple-speeding-event-test/speed-stream-test-data.json";
+	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-app/multiple-speeding-event-test/geo-stream-test-data.json";		
 	
 
 	public static void main(String args[]) {
@@ -37,9 +32,7 @@ public class DeployTruckingRefApp {
 	
 	
 	public DeployTruckingRefApp(String propFileLocation) {
-		loadAppPropertiesFile(propFileLocation);
-
-		samAppManager = new SAMAppManagerImpl(samRestUrl);
+		super(propFileLocation);
 	}
 
 
@@ -54,53 +47,16 @@ public class DeployTruckingRefApp {
 		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
 		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
 		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
-		
+		createTestCases();
+	}
+
+
+	private void createTestCases() {
+		createTestCase(samAppName, TEST_1_NORMAL_EVENT_TEST_CASE, TEST_1_GEO_STREAM_TEST_DATA, TEST_1_SPEED_STREAM_TEST_DATA);
+		createTestCase(samAppName, TEST_2_TEST_VIOLATION_EVENT_TEST_CASE, TEST_2_GEO_STREAM_TEST_DATA, TEST_2_SPEED_STREAM_TEST_DATA);
+		createTestCase(samAppName, TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, TEST_3_GEO_STREAM_TEST_DATA, TEST_3_SPEED_STREAM_TEST_DATA);
+
 	}
 	
-	private void loadAppPropertiesFile(String propFileLocation) {
-		appProperties = new Properties();
-		Resource appPropResource = new FileSystemResource(propFileLocation);
-		
-		if(!appPropResource.exists()) {
-			String errMsg = "App Properties file["+propFileLocation + "] doesn't exist or cannot be loaded";
-			LOG.error(errMsg);
-			throw new RuntimeException(errMsg);
-		}
-
-		try {
-			appProperties.load(appPropResource.getInputStream());
-		} catch (IOException e) {
-			String errMsg = "Cannot load App Properties file["+propFileLocation + "]";
-			LOG.error(errMsg);
-			throw new RuntimeException(errMsg, e);
-		}
-		
-		this.samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
-		if(StringUtils.isEmpty(samRestUrl)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_REST_URL +"] is required";
-			throw new RuntimeException(errMsg);
-		}		
-		
-		this.samAppName = appProperties.getProperty(AppPropertiesConstants.SAM_APP_NAME);
-		if(StringUtils.isEmpty(samAppName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_APP_NAME +"] is required";
-			throw new RuntimeException(errMsg);
-		}		
-		
-		String deployTimeOutString = appProperties.getProperty(AppPropertiesConstants.SAM_APP_DEPLOY_TIMEOUT);
-		if(StringUtils.isEmpty(deployTimeOutString)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_APP_DEPLOY_TIMEOUT +"] is required";
-			throw new RuntimeException(errMsg);
-		}		
-		this.deployTimeOut = Integer.valueOf(deployTimeOutString);
-		
-		this.samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
-		if(StringUtils.isEmpty(samEnvName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_ENV_NAME +"] is required";
-			throw new RuntimeException(errMsg);
-		}			
-		
-		
-	}	
 
 }

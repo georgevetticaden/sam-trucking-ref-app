@@ -37,10 +37,6 @@ public abstract class BaseTest {
 	
 	protected static Properties appProperties;
 	
-	
-	
-
-	
 
 	
 	protected  static void loadAppPropertiesFile(String defaultPropFile) {

@@ -36,16 +36,16 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	
 	private static Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedAppTest.class);
 	
-	private static final String TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE = "Test-Normal-Event-No-Violation-Prediction";
+	private static final String TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE = "Test-Normal-Event-No-Violation-Prediction-JUNIT";
 	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/speed-stream-test-data.json";
 	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/geo-stream-test-data.json";
 	
 
-	private static final String TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE = "Test-Normal-Event-Yes-Violation-Prediction";
+	private static final String TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE = "Test-Normal-Event-Yes-Violation-Prediction-JUNIT";
 	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-yes-violation-prediction-test/speed-stream-test-data.json";
 	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-yes-violation-prediction-test/geo-stream-test-data.json";
 	
-	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Event";
+	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Event-JUNIT";
 	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/violation-event-test/speed-stream-test-data.json";
 	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/violation-event-test/geo-stream-test-data.json";	
 	
