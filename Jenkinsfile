@@ -6,12 +6,12 @@ pipeline {
         }
     }
     stages {
-        stage('Build') { 
+        stage('Build SAM Trucking Reference Application') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Unit Test') {
+        stage('Unit Test Trucking Reference Application using SAM Test Cases') {
             steps {
                 sh 'mvn clean -Dtest=TruckingRefAdvancedAppTest test'
             }
@@ -26,7 +26,7 @@ pipeline {
                 sh 'mvn clean package install  -DskipTests=true'
             }
         }
-        stage('Deploy to SAM') {
+        stage('Deploy Truking Reference App to SAM') {
             steps {
                 sh 'chmod a+x jenkins/scripts/deploy-to-sam.sh'
                 sh './jenkins/scripts/deploy-to-sam.sh' 
