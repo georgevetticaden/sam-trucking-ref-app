@@ -11,7 +11,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Unit Test Trucking Ref App') {
+        stage('Execute SAM Test Cases using Junit') {
             steps {
                 sh 'mvn clean -Dtest=TruckingRefAdvancedAppTest test'
             }
