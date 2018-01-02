@@ -50,7 +50,7 @@ public class DeployTruckingRefAdvancedApp extends BaseDeploy {
 		samAppManager.deleteSAMApplication(samAppName);
 		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
 		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
-		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
+		//samAppManager.deploySAMApplication(samAppName, deployTimeOut);
 		createTestCases();
 	}
 
