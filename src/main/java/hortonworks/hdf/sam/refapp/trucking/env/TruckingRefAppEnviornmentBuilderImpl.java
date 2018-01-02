@@ -42,7 +42,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String samRESTUrl;
 	private String samCustomArtifactHomeDir;
 	private String samCustomArtifactSuffix = "";
-	private String samCustomArtifactsVersions;
 	private String hdfAmbariClusterEndpointUrl;	
 	private String hdpAmbariClusterEndpointUrl;
 	
@@ -75,7 +74,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 
 	
 
-	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensensionsVersion, String extensionsArtifactSuffix, 
+	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensionsArtifactSuffix, 
 											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl  ) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
@@ -87,7 +86,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.samAppManager = new SAMAppManagerImpl(samRESTUrl);
 		
 		this.samCustomArtifactHomeDir = extensionHomeDirectory;
-		this.samCustomArtifactsVersions = extensensionsVersion;
 		
 		this.hdfAmbariClusterEndpointUrl = hdfAmbariClusterEndpointUrl;
 		this.hdpAmbariClusterEndpointUrl = hdpAmbariClusterEndpointUrl;
@@ -117,8 +115,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomProcessorsForRefApp();
 		createServicePools();
 		createEnvironments();
-		importRefApps();
-		deployRefApps();
+		//importRefApps();
+		//deployRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
@@ -337,7 +335,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfConfigFile = samCustomArtifactHomeDir
 				+ "/custom-udf/config/round-udf-config.json";
 		String udfJar = samCustomArtifactHomeDir
-				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
+				+ "/custom-udf/sam-custom-udf.jar";
 		SAMUDF roundUdf = udfSDK.uploadUDF(udfConfigFile, udfJar);
 		LOG.info("The Round UDF created is: " + roundUdf.toString());
 	}	
@@ -347,7 +345,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfConfigFile = samCustomArtifactHomeDir
 				+ "/custom-udf/config/timestamp-long-udf.json";
 		String udfJar = samCustomArtifactHomeDir
-				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
+				+ "/custom-udf/sam-custom-udf.jar";
 		SAMUDF timeStampLongUdf = udfSDK.uploadUDF(udfConfigFile, udfJar);
 		LOG.info("The TimestmapLong UDF created is: " + timeStampLongUdf.toString());
 	}	
@@ -356,7 +354,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		String udfConfigFile = samCustomArtifactHomeDir
 				+ "/custom-udf/config/get-week-udf.json";
 		String udfJar = samCustomArtifactHomeDir
-				+ "/custom-udf/sam-custom-udf-"+ samCustomArtifactsVersions +".jar";
+				+ "/custom-udf/sam-custom-udf.jar";
 		SAMUDF udfAdded = udfSDK.uploadUDF(udfConfigFile, udfJar);
 		LOG.info("The GetWeek UDF created is: " + udfAdded.toString());
 	}	
@@ -365,14 +363,14 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public void uploadWeatherEnrichmentSAMProcessor() {
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/weather-enrichment-processor-component.json";
-		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-"+ samCustomArtifactsVersions +".jar";
+		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
 		LOG.info("The Weather Enrichment Processor created is: " + samComponent.toString());
 	}	
 	
 	public void uploadNormalizeModelSAMProcessor() {
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/normalize-model-features-processor-component.json";
-		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-" + samCustomArtifactsVersions +".jar";
+		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
 		LOG.info("The Normalize Model Processor created is: " + samComponent.toString());
 	}
@@ -381,7 +379,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 		LOG.info("Starting uploading of PHoenixEnirchment Processer. This will take a few minutes");
 		String fluxFile = samCustomArtifactHomeDir + "/custom-processor/config/phoenix-enrichment-processor-component.json";
-		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-"+ samCustomArtifactsVersions +"-jar-with-dependencies.jar";
+		String customProcessorJar = samCustomArtifactHomeDir + "/custom-processor/sam-custom-processor-jar-with-dependencies.jar";
 		SAMProcessorComponent samComponent = processorSDK.uploadCustomProcessor(fluxFile, customProcessorJar);
 		LOG.info("The Phoenix EnrichmentProcessor created is: " + samComponent.toString());
 	}	
@@ -389,14 +387,14 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public void uploadCustomKinesisSource() {
 		String fluxFileLocation = samCustomArtifactHomeDir + "/custom-source/kinesis/config/kinesis-source-topology-component.json";
-		String customSourceJarLocation = samCustomArtifactHomeDir + "/custom-source/kinesis/sam-custom-source-kinesis-"+ samCustomArtifactsVersions +".jar";
+		String customSourceJarLocation = samCustomArtifactHomeDir + "/custom-source/kinesis/sam-custom-source-kinesis.jar";
 		SAMComponent samCustomSource = sourceSinkSDK.uploadSAMComponent(ComponentType.SOURCE, fluxFileLocation, customSourceJarLocation);
 		LOG.info("The Kinesis Source creteated is: " + samCustomSource.toString());
 	}
 	
 	public void uploadCustomS3Sink() {
 		String fluxFileLocation = samCustomArtifactHomeDir + "/custom-sink/s3/config/s3-sink-topology-component.json";
-		String customSinkJarLocation = samCustomArtifactHomeDir + "/custom-sink/s3/sam-custom-sink-s3-"+ samCustomArtifactsVersions +".jar";		
+		String customSinkJarLocation = samCustomArtifactHomeDir + "/custom-sink/s3/sam-custom-sink-s3.jar";		
 		SAMComponent samCustomSink = sourceSinkSDK.uploadSAMComponent(ComponentType.SINK, fluxFileLocation, customSinkJarLocation);
 		LOG.info(samCustomSink.toString());
 		

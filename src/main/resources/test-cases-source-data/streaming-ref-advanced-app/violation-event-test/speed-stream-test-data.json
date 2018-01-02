@@ -1,6 +1,7 @@
 [
 	{
-		"eventTime":"2017-09-26 14:54:45.163",
+		"eventTime":"2017-09-26 14:54:44.563",
+      	"eventTimeLong": 1506455684563,
 		"eventSource":"truck_speed_event",
 		"truckId":23,
 		"driverId":13,

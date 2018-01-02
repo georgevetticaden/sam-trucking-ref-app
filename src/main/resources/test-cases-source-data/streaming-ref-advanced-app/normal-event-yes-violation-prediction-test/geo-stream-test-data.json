@@ -1,6 +1,7 @@
 [
 	{
-		"eventTime":"2017-12-30 07:36:06.77",
+		"eventTime":"2017-09-26 14:54:44.451",
+		"eventTimeLong": 1506455684451,
 		"eventSource":"truck_geo_event",
 		"truckId":48,
 		"driverId":10,

@@ -15,7 +15,7 @@ public class DateUtilsTest {
 	
 	@Test
 	public void longtoStringDate() {
-		long dateLong = 1506455694000L;
+		long dateLong = 1506455684563L;
 		Timestamp geoDateTimeStamp2 = new Timestamp(dateLong);
 		LOG.info("Date String is: " + geoDateTimeStamp2.toString()); 
 	}	

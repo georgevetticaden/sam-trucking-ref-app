@@ -1,7 +1,8 @@
 [
 	{
-		"eventTime":"2017-09-26 14:54:45.163",
-		"eventSource":"truck_speed_event",
+		"eventTime":"2017-09-26 14:54:44.563",
+      	"eventTimeLong": 1506455684563,
+      	"eventSource":"truck_speed_event",
 		"truckId":23,
 		"driverId":13,
 		"driverName":"Suresh Srinivas",
@@ -11,6 +12,7 @@
 	},
 	{
 		"eventTime":"2017-09-26 14:54:52.099",
+        "eventTimeLong": 1506455692099,
 		"eventSource":"truck_speed_event",
 		"truckId":23,
 		"driverId":13,
