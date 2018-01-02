@@ -241,7 +241,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		SamTestComponent splitComponent = testCaseExecutionResults.get("Split").get(0);
 		Map<String, String> splitComponentFieldAndValues = splitComponent.getFieldsAndValues();
 		assertThat(splitComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
-		assertThat(splitComponentFieldAndValues.get("week"), is("52"));
+		assertThat(splitComponentFieldAndValues.get("week"), is("39"));
 		
 		//Validate the HR Enrichment values
 		assertNotNull(testCaseExecutionResults.get("ENRICH-HR"));
