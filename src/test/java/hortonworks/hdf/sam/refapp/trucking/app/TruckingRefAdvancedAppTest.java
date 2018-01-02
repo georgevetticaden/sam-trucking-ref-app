@@ -260,8 +260,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertThat(testCaseExecutionResults.get("ENRICH-Timesheet").size(), is(1));
 		SamTestComponent timeSheetEnrichComponent = testCaseExecutionResults.get("ENRICH-Timesheet").get(0);
 		Map<String, String>timeSheetrEnrichmentComponentFieldAndValues = timeSheetEnrichComponent.getFieldsAndValues();
-		String driverFatigueByHours = "0";
-		String driverFatigueByMiles = "0";
+		String driverFatigueByHours = "70";
+		String driverFatigueByMiles = "3300";
 		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("driverFatigueByHours"), is(driverFatigueByHours));
 		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("driverFatigueByMiles"), is(driverFatigueByMiles));	
 		assertThat(timeSheetrEnrichmentComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
@@ -286,8 +286,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		assertThat(joinEnrichmentComponentFieldAndValues.get("splitJoinValue"), is(expectedSplitJoinValue));
 		assertThat(joinEnrichmentComponentFieldAndValues.get("driverCertification"), is(driverCert));
 		assertThat(joinEnrichmentComponentFieldAndValues.get("driverWagePlan"), is(driverWagePlan));
-		assertThat(joinEnrichmentComponentFieldAndValues.get("driverFatigueByHours"), is(driverFatigueByMiles));
-		assertThat(joinEnrichmentComponentFieldAndValues.get("driverFatigueByMiles"), is(driverFatigueByHours));
+		assertThat(joinEnrichmentComponentFieldAndValues.get("driverFatigueByHours"), is(driverFatigueByHours));
+		assertThat(joinEnrichmentComponentFieldAndValues.get("driverFatigueByMiles"), is(driverFatigueByMiles));
 		assertNotNull(joinEnrichmentComponentFieldAndValues.get("Model_Feature_FoggyWeather"));
 		assertNotNull(joinEnrichmentComponentFieldAndValues.get("Model_Feature_RainyWeather"));
 		assertNotNull(joinEnrichmentComponentFieldAndValues.get("Model_Feature_WindyWeather"));
@@ -300,8 +300,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		Map<String, String>normlaizeModelComponentFieldAndValues = normalizeModelComponent.getFieldsAndValues();
 		String driverCertNormalized = "0";
 		String driverWagePlanNormalized = "1";
-		String driverFatigueByMilesNormalized = "0.0";
-		String driverFatigueByHoursNormalized = "0.0";
+		String driverFatigueByMilesNormalized = "3.3";
+		String driverFatigueByHoursNormalized = "0.7";
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_Certification"), is(driverCertNormalized));
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_WagePlan"), is(driverWagePlanNormalized));
 		assertThat(normlaizeModelComponentFieldAndValues.get("Model_Feature_FatigueByHours"), is(driverFatigueByHoursNormalized));
