@@ -133,7 +133,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		
 		
 		//Validate the non-violation event goes to the split component and the split fields are correct (week, splitJoinValue)
-		String expectedSplitJoinValue = "1506437672640";
+		String expectedSplitJoinValue = "1506437684451";
 		assertNotNull(testCaseExecutionResults.get("Split"));
 		assertThat(testCaseExecutionResults.get("Split").size(), is(1));
 		SamTestComponent splitComponent = testCaseExecutionResults.get("Split").get(0);
@@ -235,7 +235,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		
 		
 		//Validate the non-violation event goes to the split component and the split fields are correct (week, splitJoinValue)
-		String expectedSplitJoinValue = "1514619366770";
+		String expectedSplitJoinValue = "1506437684451";
 		assertNotNull(testCaseExecutionResults.get("Split"));
 		assertThat(testCaseExecutionResults.get("Split").size(), is(1));
 		SamTestComponent splitComponent = testCaseExecutionResults.get("Split").get(0);
