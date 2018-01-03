@@ -39,7 +39,7 @@ The Trucking application requires number of SAM components including custom UDFs
 * Build the project
 	* mvn clean package -DskipTests=true
 	* Run the script to setup the env
-		* `java -cp target/sam-trucking-ref-app-0.0.1-SNAPSHOT-shaded.jar  hortonworks.hdf.sam.refapp.trucking.env.TruckingRefAppEnviornmentBuilderImpl $SAM_ROOT_DIR/sam-trucking-ref-app/jenkins/env-properties/ref-app-env.properties`
+		* `java -cp target/sam-trucking-ref-app-0.0.1-SNAPSHOT-shaded.jar  hortonworks.hdf.sam.refapp.trucking.env.TruckingRefAppEnviornmentBuilderImpl $SAM_ROOT_DIR/sam-trucking-ref-app/jenkins/app-properties/trucking-advanced-ref-app.properties`
 	
 This script will do the following which are required for the Trucking Ref App
 
@@ -63,7 +63,6 @@ Trucking Ref App SAM URL: http://hdf-3-1-build3.field.hortonworks.com:7777/#/app
 
 ### Running SAM Test Cases as Junit Tests
 
-* Modify the [trucking-advanced-ref-app.properties](https://github.com/georgevetticaden/sam-trucking-ref-app/blob/master/jenkins/app-properties/trucking-advanced-ref-app.properties) file based on your env
 * Run the Test
 	* mvn clean -Dtest=TruckingRefAdvancedAppTest test
 	
