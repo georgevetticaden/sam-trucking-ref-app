@@ -4,7 +4,9 @@ package hortonworks.hdf.sam.refapp.trucking.env;
 
 import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
 import hortonworks.hdf.sam.refapp.trucking.simulator.schemaregistry.TruckSchemaRegistryLoader;
+import hortonworks.hdf.sam.sdk.app.SAMAppSDKUtils;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
+import hortonworks.hdf.sam.sdk.app.model.SAMApplication;
 import hortonworks.hdf.sam.sdk.component.SAMProcessorComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.SAMSourceSinkComponentSDKUtils;
 import hortonworks.hdf.sam.sdk.component.model.ComponentType;
@@ -57,6 +59,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private SAMEnvironmentManagerImpl samEnvironmentManager;	
 	private SAMAppManagerImpl samAppManager;	
 	private TruckSchemaRegistryLoader schemaRegistryLoader;
+	private SAMAppSDKUtils samAppSDK;
 	
 	/* Names of different entities that will be created for SAM Trucking Ref App */
 	private String roundUDFName = "ROUND";
@@ -113,6 +116,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
+		this.samAppSDK = new SAMAppSDKUtils(samRestURL);
 		this.processorSDK = new SAMProcessorComponentSDKUtils(samRESTUrl);
 		this.sourceSinkSDK = new SAMSourceSinkComponentSDKUtils(samRESTUrl);
 		this.modelRegistrySDK = new SAMModelRegistrySDKUtils(samRESTUrl);
@@ -152,21 +156,28 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		uploadAllCustomProcessorsForRefApp();
 		createServicePools();
 		createEnvironments();
-		//importRefApps();
-		//deployRefApps();
+		importRefApps();
+		deployRefApps();
+		String deploymentUrl = getDeploymentUrl();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
 		LOG.info("Trucking Ref App Environment creation completed[ " + endTime.toString() + "]");
 		LOG.info("Trucking Ref App environment creation time["+  + envCreationTime.getSeconds() + " seconds]");
-
-		
+		LOG.info("Trucking Ref App SAM URL: " + deploymentUrl);
 	}
 
 
 
-
-
+	private String getDeploymentUrl() {
+		SAMApplication samApp = samAppSDK.getSAMApp(this.truckingAppAdvancedAppName);
+		String id = samApp.getId().toString();
+		String[] urlSplit = this.samRESTUrl.split("/api");
+		String samUI = urlSplit[0];
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(samUI).append("/#/applications/").append(id).append("/view");
+		return buffer.toString();
+	}
 
 	/**
 	 * Tears down the Trucking Ref App and the enviroment

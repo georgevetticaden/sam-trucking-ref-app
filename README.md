@@ -38,8 +38,22 @@ The Trucking application requires number of SAM components including custom UDFs
 	* sam.schema.registry.url = The url of the Schema Registry service in SAM you installed as part of the HDF cluster
 * Build the project
 	* mvn clean package -DskipTests=true
-	* cd target
-	* 
+	* Run the script to setup the env
+		* `java -cp target/sam-trucking-ref-app-0.0.1-SNAPSHOT-shaded.jar  hortonworks.hdf.sam.refapp.trucking.env.TruckingRefAppEnviornmentBuilderImpl $SAM_ROOT_DIR/sam-trucking-ref-app/jenkins/env-properties/ref-app-env.properties`
+	
+This script will do the following which are required for the Trucking Ref App
+
+* Upload Custom UDFs 
+* Upload Custom Sources
+* Upload Custom Sinks
+* Upload PMML model into Model Registry
+* Upload Custom Processors
+* create Service Pools for HDP and HDF
+* Create SAM Environment required for the Refernce App
+* Import the Trucking Reference App
+* Setup Test Cases for the Reference App
+* Deploy the Trucking Reference App
+
 
 	
 	
