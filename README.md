@@ -37,6 +37,7 @@ The Trucking application requires number of SAM components including custom UDFs
 	* sam.schema.registry.url = The url of the Schema Registry service in SAM you installed as part of the HDF cluster
 	* sam.extensions.home = location of $SAM_EXTENSIONS that you unzipped
 * Build the project
+	* git clone https://github.com/georgevetticaden/sam-trucking-ref-app.git
 	* mvn clean package -DskipTests=true
 	* Run the script to setup the env
 		* `java -cp target/sam-trucking-ref-app-0.0.1-SNAPSHOT-shaded.jar  hortonworks.hdf.sam.refapp.trucking.env.TruckingRefAppEnviornmentBuilderImpl $SAM_ROOT_DIR/sam-trucking-ref-app/jenkins/app-properties/trucking-advanced-ref-app.properties`
