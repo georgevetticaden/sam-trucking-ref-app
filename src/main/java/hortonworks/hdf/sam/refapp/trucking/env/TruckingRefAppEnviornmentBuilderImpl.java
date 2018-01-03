@@ -169,8 +169,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 		createSchemasInSchemaRegistry();
 		uploadAllCustomUDFsForRefApp();
-		uploadAllCustomSources();
-		uploadAllCustomSinks();
+		//uploadAllCustomSources();
+		//uploadAllCustomSinks();
 		uploadAllModels();
 		uploadAllCustomProcessorsForRefApp();
 		createServicePools();
@@ -211,8 +211,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		killAllRefApps();
 		deleteAllRefApps();
 		deleteAllCustomUDFsForRefApp();
-		deleteAllCustomSources();
-		deleteAllCustomSinks();
+		//deleteAllCustomSources();
+		//deleteAllCustomSinks();
 		deleteAllCustomModels();
 		deleteAllCustomProcessorsRefApp();
 		deleteAllEnvironments();
