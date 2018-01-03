@@ -30,14 +30,14 @@ The current version of the reference application supports HDF 3.1.
 The Trucking application requires number of SAM components including custom UDFs, custom processors, etc. To setup this environment, perform the following:
 
 * Download the [SAM_EXTENSIONS](https://drive.google.com/file/d/1CNYcfT0yoBHbsjziikzO_W2lN3Lrtas3/view) zip file. Unzip the contents. We will call the unzipped folder $SAM_EXTENSIONS
-* Modify the [trucking-advanced-ref-app.properties](https://github.com/georgevetticaden/sam-trucking-ref-app/blob/master/jenkins/app-properties/trucking-advanced-ref-app.properties) file based on your env file based on your env
-	* sam.rest.url = the REST url of the SAM instance in your env
-	* sam.service.pool.hdf.ambari.url = The rest endpoint for the HDF cluster you installed
-	* sam.service.pool.hdp.ambari.url = The rest endpoint for the HDP cluster you installed
-	* sam.schema.registry.url = The url of the Schema Registry service in SAM you installed as part of the HDF cluster
-	* sam.extensions.home = location of $SAM_EXTENSIONS that you unzipped
 * Build the project
 	* git clone https://github.com/georgevetticaden/sam-trucking-ref-app.git
+	*  Modify the [trucking-advanced-ref-app.properties](https://github.com/georgevetticaden/sam-trucking-ref-app/blob/master/jenkins/app-properties/trucking-advanced-ref-app.properties) file based on your env file based on your env
+		* sam.rest.url = the REST url of the SAM instance in your env
+		* sam.service.pool.hdf.ambari.url = The rest endpoint for the HDF cluster you installed
+		* sam.service.pool.hdp.ambari.url = The rest endpoint for the HDP cluster you installed
+		* sam.schema.registry.url = The url of the Schema Registry service in SAM you installed as part of the HDF cluster
+		* sam.extensions.home = location of $SAM_EXTENSIONS that you unzipped
 	* mvn clean package -DskipTests=true
 	* Run the script to setup the env
 		* `java -cp target/sam-trucking-ref-app-0.0.1-SNAPSHOT-shaded.jar  hortonworks.hdf.sam.refapp.trucking.env.TruckingRefAppEnviornmentBuilderImpl $SAM_ROOT_DIR/sam-trucking-ref-app/jenkins/app-properties/trucking-advanced-ref-app.properties`
