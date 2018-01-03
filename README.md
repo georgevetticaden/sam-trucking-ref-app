@@ -29,7 +29,17 @@ The current version of the reference application supports HDF 3.1.
 
 The Trucking application requires number of SAM components including custom UDFs, custom processors, etc. To setup this environment, perform the following:
 
-* Modify the SAM_REF_HOME
+* Download the [SAM_EXTENSIONS](https://drive.google.com/file/d/1CNYcfT0yoBHbsjziikzO_W2lN3Lrtas3/view) zip file. Unzip the contents. We will call the unzipped folder $SAM_EXTENSIONS
+* Modify the [ref-app-env.properties](https://github.com/georgevetticaden/sam-trucking-ref-app/blob/master/jenkins/env-properties/ref-app-env.properties) file based on your env
+	* sam.rest.url = the REST url of the SAM instance in your env
+	* sam.extensions.home = location of $SAM_EXTENSIONS that you unzipped
+	* hdf.service.pool.ambari.url = The rest endpoint for the HDF cluster you installed
+	* hdp.service.pool.ambari.url = The rest endpoint for the HDP cluster you installed
+	* sam.schema.registry.url = The url of the Schema Registry service in SAM you installed as part of the HDF cluster
+* Build the project
+	* mvn clean package -DskipTests=true
+	* cd target
+	* 
 
 	
 	
