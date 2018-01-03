@@ -15,7 +15,7 @@ public class TruckingRefAppEnviornmentBuilderTest {
 
 	@BeforeClass
 	public static void setup() {
-		Resource resource = new ClassPathResource("/env-properties/ref-app-env.properties");
+		Resource resource = new ClassPathResource("/app-properties/trucking-ref-app-advanced.properties");
 		envBuilder = new TruckingRefAppEnviornmentBuilderImpl(resource);
 	}	
 

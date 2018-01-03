@@ -1,5 +1,7 @@
 package hortonworks.hdf.sam.refapp.trucking.deploy;
 
+import hortonworks.hdf.sam.refapp.trucking.PropertiesConstants;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -44,7 +46,7 @@ public class DeployTruckingRefApp extends BaseDeploy{
 	public void deployNewTruckingRefApp() {
 		samAppManager.killSAMApplication(samAppName);
 		samAppManager.deleteSAMApplication(samAppName);
-		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
+		Resource appResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_FILE_LOCATION);
 		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
 		samAppManager.deploySAMApplication(samAppName, deployTimeOut);
 		createTestCases();

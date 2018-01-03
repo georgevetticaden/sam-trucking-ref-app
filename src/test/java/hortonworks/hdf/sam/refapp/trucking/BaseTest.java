@@ -1,6 +1,5 @@
 package hortonworks.hdf.sam.refapp.trucking;
 
-import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManager;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.environment.manager.SAMEnvironmentManager;
@@ -65,35 +64,35 @@ public abstract class BaseTest {
 			throw new RuntimeException(errMsg, e);
 		}		
 
-		String samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
+		String samRestUrl = appProperties.getProperty(PropertiesConstants.SAM_REST_URL);
 		if(StringUtils.isEmpty(samRestUrl)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_REST_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_REST_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}	
-		String samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		String samEnvName = appProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
 		if(StringUtils.isEmpty(samEnvName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_ENV_NAME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_ENV_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}	
 		
-		String samServicePoolHDFName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
+		String samServicePoolHDFName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
 		if(StringUtils.isEmpty(samServicePoolHDFName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}			
-		String samServicePoolHDPName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
+		String samServicePoolHDPName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
 		if(StringUtils.isEmpty(samServicePoolHDPName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}			
-		String samServicePoolHDFRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
+		String samServicePoolHDFRestUrl = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
 		if(StringUtils.isEmpty(samServicePoolHDFRestUrl)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}	
-		String samServicePoolHDPRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL);
+		String samServicePoolHDPRestUrl = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL);
 		if(StringUtils.isEmpty(samServicePoolHDPRestUrl)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 	
@@ -103,7 +102,7 @@ public abstract class BaseTest {
 	
 
 	public static void importSAMApp(String samAppName, Resource appResource) {
-		String samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		String samEnvName = appProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
 		samAppManager.importSAMApplication(samAppName, samEnvName, appResource);
 		
 	}	
@@ -137,47 +136,47 @@ public abstract class BaseTest {
 	}	
 	
 	protected static void createServicePools() {
-		String samServicePoolHDFName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
-		String samServicePoolHDFRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
+		String samServicePoolHDFName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
+		String samServicePoolHDFRestUrl = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
 		samServicePoolManager.createServicePool(samServicePoolHDFName, samServicePoolHDFRestUrl, "admin", "admin");
 		
-		String samServicePoolHDPName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
-		String samServicePoolHDPRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL);
+		String samServicePoolHDPName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
+		String samServicePoolHDPRestUrl = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL);
 		samServicePoolManager.createServicePool(samServicePoolHDPName, samServicePoolHDPRestUrl, "admin", "admin");		
 		
 	}
 	
 	public static void deleteServicePools() {
-		String samServicePoolHDFName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
+		String samServicePoolHDFName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
 		samServicePoolManager.deleteServicePool(samServicePoolHDFName);
 		
-		String samServicePoolHDPName = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
+		String samServicePoolHDPName = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
 		samServicePoolManager.deleteServicePool(samServicePoolHDPName);
 
 		
 	}		
 	
 	protected static void createEnv() {
-		String samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		String samEnvName = appProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
 		samEnvironmentManager.createSAMEnvironment(samEnvName, "junit env", createServiceMappings());
 	}
 	
 	protected static void deleteEnv() {
-		String samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		String samEnvName = appProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
 		samEnvironmentManager.deleteSAMEnvironment(samEnvName);
 	}
 	
 	private static List<ServiceEnvironmentMapping> createServiceMappings() {
 		List<ServiceEnvironmentMapping> mappings = new ArrayList<ServiceEnvironmentMapping>();
 		
-		String hdfServicePool = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
+		String hdfServicePool = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "STORM"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "KAFKA"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "ZOOKEEPER"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "AMBARI_INFRA"));
 		mappings.add(new ServiceEnvironmentMapping(hdfServicePool, "AMBARI_METRICS"));
 		
-		String hdpServicePool = appProperties.getProperty(AppPropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
+		String hdpServicePool = appProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "DRUID"));
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "HBASE"));
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePool, "HDFS"));		

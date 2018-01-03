@@ -1,8 +1,6 @@
 package hortonworks.hdf.sam.refapp.trucking.env;
 
-
-
-import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
+import hortonworks.hdf.sam.refapp.trucking.PropertiesConstants;
 import hortonworks.hdf.sam.refapp.trucking.simulator.schemaregistry.TruckSchemaRegistryLoader;
 import hortonworks.hdf.sam.sdk.app.SAMAppSDKUtils;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
@@ -92,12 +90,12 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public TruckingRefAppEnviornmentBuilderImpl(Resource resource) {
 		Properties envProperties = loadAppPropertiesFile(resource);
-		init(envProperties.getProperty(EnvPropertiesConstants.SAM_REST_URL), 
-			 envProperties.getProperty(EnvPropertiesConstants.SAM_EXTENSIONS_HOME), 
-			 envProperties.getProperty(EnvPropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX), 
-			 envProperties.getProperty(EnvPropertiesConstants.HDF_SERVICE_POOL_AMBARI_URL), 
-			 envProperties.getProperty(EnvPropertiesConstants.HDP_SERVICE_POOL_AMBARI_URL), 
-			 envProperties.getProperty(EnvPropertiesConstants.SAM_SCHEMA_REGISTRY_URL));
+		init(envProperties.getProperty(PropertiesConstants.SAM_REST_URL), 
+			 envProperties.getProperty(PropertiesConstants.SAM_EXTENSIONS_HOME), 
+			 envProperties.getProperty(PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX), 
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL), 
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL), 
+			 envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL));
 	}
 	
 	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensionsArtifactSuffix, 
@@ -263,7 +261,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}	
 	
 	public void importTruckingRefAppAdvanced() {
-		Resource samImportResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
+		Resource samImportResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
 		samAppManager.importSAMApplication(truckingAppAdvancedAppName, samEnvName, samImportResource);
 	}
 	
@@ -605,38 +603,38 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			throw new RuntimeException(errMsg, e);
 		}
 		
-		String samRestUrl = envProperties.getProperty(EnvPropertiesConstants.SAM_REST_URL);
+		String samRestUrl = envProperties.getProperty(PropertiesConstants.SAM_REST_URL);
 		if(StringUtils.isEmpty(samRestUrl)) {
-			String errMsg = "Property["+EnvPropertiesConstants.SAM_REST_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_REST_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		
-		String samExtensionsHome = envProperties.getProperty(EnvPropertiesConstants.SAM_EXTENSIONS_HOME);
+		String samExtensionsHome = envProperties.getProperty(PropertiesConstants.SAM_EXTENSIONS_HOME);
 		if(StringUtils.isEmpty(samExtensionsHome)) {
-			String errMsg = "Property["+EnvPropertiesConstants.SAM_EXTENSIONS_HOME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_EXTENSIONS_HOME +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		
-		String samCustomArtifactSuffix = envProperties.getProperty(EnvPropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX);
+		String samCustomArtifactSuffix = envProperties.getProperty(PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX);
 		if(StringUtils.isEmpty(samCustomArtifactSuffix)) {
-			String errMsg = "Property["+EnvPropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		
-		String hdfServicePoolAmbariUrl = envProperties.getProperty(EnvPropertiesConstants.HDF_SERVICE_POOL_AMBARI_URL);
+		String hdfServicePoolAmbariUrl = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
 		if(StringUtils.isEmpty(hdfServicePoolAmbariUrl)) {
-			String errMsg = "Property["+EnvPropertiesConstants.HDF_SERVICE_POOL_AMBARI_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 
-		String hdpServicePoolAmbariUrl = envProperties.getProperty(EnvPropertiesConstants.HDP_SERVICE_POOL_AMBARI_URL);
+		String hdpServicePoolAmbariUrl = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL);
 		if(StringUtils.isEmpty(hdpServicePoolAmbariUrl)) {
-			String errMsg = "Property["+EnvPropertiesConstants.HDP_SERVICE_POOL_AMBARI_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}			
-		String schemaRegistryUrl = envProperties.getProperty(EnvPropertiesConstants.SAM_SCHEMA_REGISTRY_URL);
+		String schemaRegistryUrl = envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL);
 		if(StringUtils.isEmpty(schemaRegistryUrl)) {
-			String errMsg = "Property["+EnvPropertiesConstants.SAM_SCHEMA_REGISTRY_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_SCHEMA_REGISTRY_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		return envProperties;

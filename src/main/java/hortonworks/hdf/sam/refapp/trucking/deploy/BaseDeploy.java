@@ -1,5 +1,6 @@
 package hortonworks.hdf.sam.refapp.trucking.deploy;
 
+import hortonworks.hdf.sam.refapp.trucking.PropertiesConstants;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManager;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
@@ -91,28 +92,28 @@ public abstract class BaseDeploy {
 			throw new RuntimeException(errMsg, e);
 		}
 		
-		this.samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
+		this.samRestUrl = appProperties.getProperty(PropertiesConstants.SAM_REST_URL);
 		if(StringUtils.isEmpty(samRestUrl)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_REST_URL +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_REST_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		
-		this.samAppName = appProperties.getProperty(AppPropertiesConstants.SAM_APP_NAME);
+		this.samAppName = appProperties.getProperty(PropertiesConstants.SAM_APP_NAME);
 		if(StringUtils.isEmpty(samAppName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_APP_NAME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_APP_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		
-		String deployTimeOutString = appProperties.getProperty(AppPropertiesConstants.SAM_APP_DEPLOY_TIMEOUT);
+		String deployTimeOutString = appProperties.getProperty(PropertiesConstants.SAM_APP_DEPLOY_TIMEOUT);
 		if(StringUtils.isEmpty(deployTimeOutString)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_APP_DEPLOY_TIMEOUT +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_APP_DEPLOY_TIMEOUT +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
 		this.deployTimeOut = Integer.valueOf(deployTimeOutString);
 		
-		this.samEnvName = appProperties.getProperty(AppPropertiesConstants.SAM_ENV_NAME);
+		this.samEnvName = appProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
 		if(StringUtils.isEmpty(samEnvName)) {
-			String errMsg = "Property["+AppPropertiesConstants.SAM_ENV_NAME +"] is required";
+			String errMsg = "Property["+PropertiesConstants.SAM_ENV_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}			
 	}		

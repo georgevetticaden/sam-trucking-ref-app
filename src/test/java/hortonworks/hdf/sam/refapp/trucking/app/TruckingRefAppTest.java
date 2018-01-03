@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hortonworks.hdf.sam.refapp.trucking.PropertiesConstants;
 import hortonworks.hdf.sam.refapp.trucking.BaseTest;
-import hortonworks.hdf.sam.refapp.trucking.deploy.AppPropertiesConstants;
 import hortonworks.hdf.sam.sdk.app.manager.SAMAppManagerImpl;
 import hortonworks.hdf.sam.sdk.environment.manager.SAMEnvironmentManagerImpl;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
@@ -55,7 +55,7 @@ public class TruckingRefAppTest extends BaseTest{
 	
 	static {
 		loadAppPropertiesFile("/app-properties/junit-trucking-ref-app.properties");
-		String samRestUrl = appProperties.getProperty(AppPropertiesConstants.SAM_REST_URL);
+		String samRestUrl = appProperties.getProperty(PropertiesConstants.SAM_REST_URL);
 		samAppManager = new SAMAppManagerImpl(samRestUrl);
 		samTestCaseManager = new SAMTestCaseManagerImpl(samRestUrl);
 		samServicePoolManager = new SAMServicePoolManagerImpl(samRestUrl);
@@ -79,7 +79,7 @@ public class TruckingRefAppTest extends BaseTest{
 		createEnv();
 		
 		LOG.info("Importing App["+SAM_APP_NAME + "]");
-		Resource appResource = new ClassPathResource(AppPropertiesConstants.SAM_REF_APP_FILE_LOCATION);
+		Resource appResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_FILE_LOCATION);
 		importSAMApp(SAM_APP_NAME, appResource);
 		
 		LOG.info("Setup for Test Completed");
