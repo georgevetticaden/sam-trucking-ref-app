@@ -36,23 +36,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	
 	private static Logger LOG = LoggerFactory.getLogger(TruckingRefAdvancedAppTest.class);
 	
-	private static final String TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE = "Test-Normal-Event-No-Violation-Prediction-JUNIT";
-	private static final String TEST_1_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/speed-stream-test-data.json";
-	private static final String TEST_1_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-no-violation-prediction-test/geo-stream-test-data.json";
-	
-
-	private static final String TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE = "Test-Normal-Event-Yes-Violation-Prediction-JUNIT";
-	private static final String TEST_2_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-yes-violation-prediction-test/speed-stream-test-data.json";
-	private static final String TEST_2_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/normal-event-yes-violation-prediction-test/geo-stream-test-data.json";
-	
-	private static final String TEST_3_TEST_VIOLATION_EVENT_TEST_CASE = "Test-Violation-Event-JUNIT";
-	private static final String TEST_3_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/violation-event-test/speed-stream-test-data.json";
-	private static final String TEST_3_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/violation-event-test/geo-stream-test-data.json";	
-	
-	private static final String TEST_4_TEST_VIOLATION_EVENT_TEST_CASE = "Multiple-Speeding-Events";
-	private static final String TEST_4_SPEED_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/multiple-speeding-event-test/speed-stream-test-data.json";
-	private static final String TEST_4_GEO_STREAM_TEST_DATA = "test-cases-source-data/streaming-ref-advanced-app/multiple-speeding-event-test/geo-stream-test-data.json";	
-		
+			
 	
 	static {
 		loadAppPropertiesFile("/app-properties/junit-trucking-ref-app-advanced.properties");
@@ -107,9 +91,9 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	
 	@Test
 	public void testNormalEventNoViolationPrediction() throws Exception {
-		String testName = TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE;
+		String testName = PropertiesConstants.TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE;
 		
-		createTestCase(SAM_APP_NAME ,testName, TEST_1_GEO_STREAM_TEST_DATA, TEST_1_SPEED_STREAM_TEST_DATA);
+		createTestCase(SAM_APP_NAME ,testName, PropertiesConstants.TEST_1_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_1_SPEED_STREAM_TEST_DATA);
 		
 		Integer testTimeOutInSeconds = 200;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
@@ -209,9 +193,9 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	
 	@Test
 	public void testNormalEventYesViolationPrediction() throws Exception {
-		String testName = TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE;
+		String testName = PropertiesConstants.TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE;
 		
-		createTestCase(SAM_APP_NAME ,testName, TEST_2_GEO_STREAM_TEST_DATA, TEST_2_SPEED_STREAM_TEST_DATA);
+		createTestCase(SAM_APP_NAME ,testName, PropertiesConstants.TEST_2_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_2_SPEED_STREAM_TEST_DATA);
 		
 		Integer testTimeOutInSeconds = 200;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
@@ -322,9 +306,9 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	
 	@Test
 	public void testViolationTruckingEvents() throws Exception {
-		String testName = TEST_3_TEST_VIOLATION_EVENT_TEST_CASE;
+		String testName = PropertiesConstants.TEST_3_TEST_VIOLATION_EVENT_TEST_CASE;
 		
-		createTestCase(SAM_APP_NAME, testName, TEST_3_GEO_STREAM_TEST_DATA, TEST_3_SPEED_STREAM_TEST_DATA);
+		createTestCase(SAM_APP_NAME, testName, PropertiesConstants.TEST_3_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_3_SPEED_STREAM_TEST_DATA);
 		
 		Integer testTimeOutInSeconds = 200;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
@@ -373,8 +357,8 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	@Test
 	public void testMultipleSpeedingEvents() throws Exception {
 		
-		String testName = TEST_4_TEST_VIOLATION_EVENT_TEST_CASE;
-		createTestCase(SAM_APP_NAME, testName, TEST_4_GEO_STREAM_TEST_DATA, TEST_4_SPEED_STREAM_TEST_DATA);
+		String testName = PropertiesConstants.TEST_4_TEST_VIOLATION_EVENT_TEST_CASE;
+		createTestCase(SAM_APP_NAME, testName, PropertiesConstants.TEST_4_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_4_SPEED_STREAM_TEST_DATA);
 		
 		Integer testTimeOutInSeconds = 200;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	

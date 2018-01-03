@@ -16,12 +16,16 @@ import hortonworks.hdf.sam.sdk.environment.model.ServiceEnvironmentMapping;
 import hortonworks.hdf.sam.sdk.modelregistry.SAMModelRegistrySDKUtils;
 import hortonworks.hdf.sam.sdk.modelregistry.model.PMMLModel;
 import hortonworks.hdf.sam.sdk.servicepool.manager.SAMServicePoolManagerImpl;
+import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManager;
+import hortonworks.hdf.sam.sdk.testcases.manager.SAMTestCaseManagerImpl;
 import hortonworks.hdf.sam.sdk.udf.SAMUDFSDKUtils;
 import hortonworks.hdf.sam.sdk.udf.model.SAMUDF;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -58,6 +62,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private SAMAppManagerImpl samAppManager;	
 	private TruckSchemaRegistryLoader schemaRegistryLoader;
 	private SAMAppSDKUtils samAppSDK;
+	private SAMTestCaseManager samTestCaseManager;
 	
 	/* Names of different entities that will be created for SAM Trucking Ref App */
 	private String roundUDFName = "ROUND";
@@ -69,10 +74,11 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String kinesisSourceName = "Kinesis";
 	private String s3SinkName = "S3";	
 	private String violationPredictionPMMLModel = "DriverViolationPredictionModel";
-	private String truckingAppAdvancedAppName = "streaming-ref-app-advanced";
-	private String hdfServicePoolName = "streamanalytics";
-	private String hdpServicePoolName = "datalake";
-	private String samEnvName = "Dev";
+	
+	private String hdfServicePoolName;
+	private String hdpServicePoolName;
+	private String samEnvName;
+	private String samAppName;
 	
 	
 	public static void main(String args[]) {
@@ -95,23 +101,32 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			 envProperties.getProperty(PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX), 
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL), 
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL), 
-			 envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL));
+			 envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL),
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME),
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME),
+			 envProperties.getProperty(PropertiesConstants.SAM_ENV_NAME),
+			 envProperties.getProperty(PropertiesConstants.SAM_APP_NAME));
+					 
 	}
 	
 	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensionsArtifactSuffix, 
-											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl  ) {
+											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
+											    String hdfPoolName, String hdpPoolName,
+												String envName, String appName) {
 		
 
 		init(samRestURL, extensionHomeDirectory, extensionsArtifactSuffix,
 				hdfAmbariClusterEndpointUrl, hdpAmbariClusterEndpointUrl,
-				schemaRegistryUrl);
+				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName);
 		
 	}
 
 	private void init(String samRestURL, String extensionHomeDirectory,
 			String extensionsArtifactSuffix,
 			String hdfAmbariClusterEndpointUrl,
-			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl) {
+			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
+			String hdfPoolName, String hdpPoolName,
+			String envName, String appName) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.samAppSDK = new SAMAppSDKUtils(samRestURL);
@@ -121,12 +136,18 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.samServicePoolManager = new SAMServicePoolManagerImpl(samRESTUrl);
 		this.samEnvironmentManager = new SAMEnvironmentManagerImpl(samRESTUrl);
 		this.samAppManager = new SAMAppManagerImpl(samRESTUrl);
+		this.samTestCaseManager = new SAMTestCaseManagerImpl(samRESTUrl);
 		
 		this.samCustomArtifactHomeDir = extensionHomeDirectory;
 		
 		this.hdfAmbariClusterEndpointUrl = hdfAmbariClusterEndpointUrl;
 		this.hdpAmbariClusterEndpointUrl = hdpAmbariClusterEndpointUrl;
 		this.schemaRegistryLoader = new TruckSchemaRegistryLoader(schemaRegistryUrl);
+		
+		this.hdfServicePoolName = hdfPoolName;
+		this.hdpServicePoolName = hdpPoolName;
+		this.samEnvName = envName;
+		this.samAppName = appName;
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -168,7 +189,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 
 
 	private String getDeploymentUrl() {
-		SAMApplication samApp = samAppSDK.getSAMApp(this.truckingAppAdvancedAppName);
+		SAMApplication samApp = samAppSDK.getSAMApp(this.samAppName);
 		String id = samApp.getId().toString();
 		String[] urlSplit = this.samRESTUrl.split("/api");
 		String samUI = urlSplit[0];
@@ -253,23 +274,23 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	
 	public void deleteTruckingRefAppAdvanced() {
-		samAppManager.deleteSAMApplication(truckingAppAdvancedAppName);
+		samAppManager.deleteSAMApplication(this.samAppName);
 	}
 	
 	public void killTruckingRefApp() {
-		samAppManager.killSAMApplication(truckingAppAdvancedAppName, KILL_TIMEOUT_SECONDS);
+		samAppManager.killSAMApplication(this.samAppName, KILL_TIMEOUT_SECONDS);
 	}	
 	
 	public void importTruckingRefAppAdvanced() {
 		Resource samImportResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_ADVANCE_FILE_LOCATION);
-		samAppManager.importSAMApplication(truckingAppAdvancedAppName, samEnvName, samImportResource);
+		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
 	}
 	
 	
 
 	
 	public void deployTruckingRefApp() {
-		samAppManager.deploySAMApplication(truckingAppAdvancedAppName, DEPLOY_TIMEOUT_SECONDS);
+		samAppManager.deploySAMApplication(this.samAppName, DEPLOY_TIMEOUT_SECONDS);
 
 	}	
 	
@@ -561,12 +582,6 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 		violationPredictionPMMLModel = violationPredictionPMMLModel + samCustomArtifactSuffix;
 		
-		samEnvName = samEnvName + samCustomArtifactSuffix;
-		
-		hdfServicePoolName = hdfServicePoolName + samCustomArtifactSuffix;
-		hdpServicePoolName = hdpServicePoolName + samCustomArtifactSuffix;
-		
-		truckingAppAdvancedAppName = truckingAppAdvancedAppName + samCustomArtifactSuffix;
 		
 	}	
 	
@@ -636,10 +651,75 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		if(StringUtils.isEmpty(schemaRegistryUrl)) {
 			String errMsg = "Property["+PropertiesConstants.SAM_SCHEMA_REGISTRY_URL +"] is required";
 			throw new RuntimeException(errMsg);
+		}	
+		
+		String hdfServicePoolName = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
+		if(StringUtils.isEmpty(hdfServicePoolName)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME +"] is required";
+			throw new RuntimeException(errMsg);
+		}	
+		
+		String hdpServicePoolName = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME);
+		if(StringUtils.isEmpty(hdpServicePoolName)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME +"] is required";
+			throw new RuntimeException(errMsg);
 		}		
+		
+		String samEnvName = envProperties.getProperty(PropertiesConstants.SAM_ENV_NAME);
+		if(StringUtils.isEmpty(samEnvName)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_ENV_NAME +"] is required";
+			throw new RuntimeException(errMsg);
+		}
+		
+		String samAppName = envProperties.getProperty(PropertiesConstants.SAM_APP_NAME);
+		if(StringUtils.isEmpty(samAppName)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_APP_NAME +"] is required";
+			throw new RuntimeException(errMsg);
+		}			
 		return envProperties;
 		
 	}		
 	
+	private void createTestCases() {
+		createTestCase(samAppName, PropertiesConstants.TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE, PropertiesConstants.TEST_1_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_1_SPEED_STREAM_TEST_DATA);
+		createTestCase(samAppName, PropertiesConstants.TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE, PropertiesConstants.TEST_2_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_2_SPEED_STREAM_TEST_DATA);
+		createTestCase(samAppName, PropertiesConstants.TEST_3_TEST_VIOLATION_EVENT_TEST_CASE, PropertiesConstants.TEST_3_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_3_SPEED_STREAM_TEST_DATA);
+		createTestCase(samAppName, PropertiesConstants.TEST_4_TEST_VIOLATION_EVENT_TEST_CASE, PropertiesConstants.TEST_4_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_4_SPEED_STREAM_TEST_DATA);
+	}	
+	
+	private  void createTestCase(String appName, String testName, String geoTestData, String speedTestData) {
+
+		/* Create map of test data for each source in the app */
+		Map<String, Resource> testDataForSources = new HashMap<String, Resource>();
+		Resource geoStreamTestData = createClassPathResource(geoTestData, LOG);	
+		testDataForSources.put("TruckGeoEvent", geoStreamTestData);
+		
+		Resource speedStreamTestData = createClassPathResource(speedTestData, LOG);	
+		testDataForSources.put("TruckSpeedEvent", speedStreamTestData);
+		
+		createTestCase(appName, testName, testDataForSources, LOG);
+	}	
+		
+	private void createTestCase(String appName, String testCase, Map<String, Resource> testDataSources, Logger logger) {
+
+		/* delete the testcase if it exists */
+		logger.info("Deleting Test Case["+testCase + "] for App["+ appName + "] if it exists");
+		samTestCaseManager.deleteTestCase(appName, testCase);		
+		
+		/* Create the Test Case */
+		logger.info("Creating Test Case["+testCase + "] for App["+ appName + "]");
+		samTestCaseManager.createTestCase(appName, testCase, testDataSources);
+	}	
+	
+	private Resource createClassPathResource(String filePath, Logger log) {
+		
+		Resource resource = new ClassPathResource(filePath);
+		if(!resource.exists()) {
+			String errMsg = "File["+filePath + "] cannot be found";
+			log.error(errMsg);
+			throw new RuntimeException(errMsg);
+		}	
+		return resource;
+	}	
 
 }
