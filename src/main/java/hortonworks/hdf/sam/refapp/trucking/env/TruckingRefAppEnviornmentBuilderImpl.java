@@ -176,6 +176,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		createServicePools();
 		createEnvironments();
 		importRefApps();
+		createTestCases();
 		deployRefApps();
 		String deploymentUrl = getDeploymentUrl();
 		
