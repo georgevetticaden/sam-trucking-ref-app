@@ -54,7 +54,18 @@ This script will do the following which are required for the Trucking Ref App
 * Setup Test Cases for the Reference App
 * Deploy the Trucking Reference App
 
+If script ran succesfully, you should see output like the following:
+> Finished Deploying all Ref Apps. Time taken[ 27 seconds ]
+Trucking Ref App Environment creation completed[ 2018-01-03T01:05:17.627-06:00]
+Trucking Ref App environment creation time[367 seconds]
+Trucking Ref App SAM URL: http://hdf-3-1-build3.field.hortonworks.com:7777/#/applications/78/view
 
+
+### Running SAM Test Cases as Junit Tests
+
+* Modify the [trucking-advanced-ref-app.properties](https://github.com/georgevetticaden/sam-trucking-ref-app/blob/master/jenkins/app-properties/trucking-advanced-ref-app.properties) file based on your env
+* Run the Test
+	* mvn clean -Dtest=TruckingRefAdvancedAppTest test
 	
 	
 
