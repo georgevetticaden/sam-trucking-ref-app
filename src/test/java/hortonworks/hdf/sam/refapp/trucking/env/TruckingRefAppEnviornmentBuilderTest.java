@@ -30,5 +30,12 @@ public class TruckingRefAppEnviornmentBuilderTest {
 		envBuilder.tearDownEnvironment();
 	}
 	
+	
+	@Test
+	public void deleteCustomSourcesAndSinks() {
+		((TruckingRefAppEnviornmentBuilderImpl)envBuilder).deleteAllCustomSources();
+		((TruckingRefAppEnviornmentBuilderImpl)envBuilder).deleteAllCustomSinks();
+		
+	}
 
 }

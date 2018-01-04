@@ -514,7 +514,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 
-	private void deleteAllCustomSinks() {
+	public void deleteAllCustomSinks() {
 	
 		DateTime start = new DateTime();
 		LOG.info("Starting to Delete all Custom Sinks");	
@@ -527,7 +527,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		
 	}
 
-	private void deleteAllCustomSources() {
+	public void deleteAllCustomSources() {
 		
 		DateTime start = new DateTime();
 		LOG.info("Starting to Delete all Custom Sources");
