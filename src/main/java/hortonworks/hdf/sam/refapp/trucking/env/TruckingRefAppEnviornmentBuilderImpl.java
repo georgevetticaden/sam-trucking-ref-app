@@ -51,6 +51,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String samCustomArtifactSuffix = "";
 	private String hdfAmbariClusterEndpointUrl;	
 	private String hdpAmbariClusterEndpointUrl;
+	private boolean registerCustomSourcesSinks;
 	
 	/* SDK clients to different SAM Entities */
 	private SAMUDFSDKUtils udfSDK;
@@ -79,6 +80,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String hdpServicePoolName;
 	private String samEnvName;
 	private String samAppName;
+	private boolean deployRefApps;
+	
 	
 	
 	public static void main(String args[]) {
@@ -98,35 +101,38 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		Properties envProperties = loadAppPropertiesFile(resource);
 		init(envProperties.getProperty(PropertiesConstants.SAM_REST_URL), 
 			 envProperties.getProperty(PropertiesConstants.SAM_EXTENSIONS_HOME), 
-			 envProperties.getProperty(PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX), 
+			 envProperties.getProperty(PropertiesConstants.SAM_CUSTOM_ARTIFACT_SUFFIX),
+			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_REGISTER_CUSTOM_SOURCES_SINKS)),
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL), 
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL), 
 			 envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL),
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME),
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME),
 			 envProperties.getProperty(PropertiesConstants.SAM_ENV_NAME),
-			 envProperties.getProperty(PropertiesConstants.SAM_APP_NAME));
+			 envProperties.getProperty(PropertiesConstants.SAM_APP_NAME),
+			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_DEPLOY_REF_APPS)));
 					 
 	}
 	
-	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, String extensionsArtifactSuffix, 
+	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, 
+												String extensionsArtifactSuffix, boolean registerCustomSorucesSinksConfig,
 											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 											    String hdfPoolName, String hdpPoolName,
-												String envName, String appName) {
+												String envName, String appName, boolean deployRefAppsConfig) {
 		
 
-		init(samRestURL, extensionHomeDirectory, extensionsArtifactSuffix,
+		init(samRestURL, extensionHomeDirectory, extensionsArtifactSuffix, registerCustomSorucesSinksConfig,
 				hdfAmbariClusterEndpointUrl, hdpAmbariClusterEndpointUrl,
-				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName);
+				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName, deployRefAppsConfig);
 		
 	}
 
 	private void init(String samRestURL, String extensionHomeDirectory,
-			String extensionsArtifactSuffix,
+			String extensionsArtifactSuffix, boolean registerCustomSorucesSinksConfig,
 			String hdfAmbariClusterEndpointUrl,
 			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 			String hdfPoolName, String hdpPoolName,
-			String envName, String appName) {
+			String envName, String appName, boolean deployRefAppsConfig) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.samAppSDK = new SAMAppSDKUtils(samRestURL);
@@ -139,6 +145,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.samTestCaseManager = new SAMTestCaseManagerImpl(samRESTUrl);
 		
 		this.samCustomArtifactHomeDir = extensionHomeDirectory;
+		this.registerCustomSourcesSinks = registerCustomSorucesSinksConfig;
 		
 		this.hdfAmbariClusterEndpointUrl = hdfAmbariClusterEndpointUrl;
 		this.hdpAmbariClusterEndpointUrl = hdpAmbariClusterEndpointUrl;
@@ -148,6 +155,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.hdpServicePoolName = hdpPoolName;
 		this.samEnvName = envName;
 		this.samAppName = appName;
+		this.deployRefApps = deployRefAppsConfig;
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -168,9 +176,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		LOG.info("Trucking Ref App Environment creation started[" + startTime.toString() + "]");
 		
 		createSchemasInSchemaRegistry();
-		uploadAllCustomUDFsForRefApp();
-		//uploadAllCustomSources();
-		//uploadAllCustomSinks();
+		uploadAllCustomSources();
+		uploadAllCustomSinks();
 		uploadAllModels();
 		uploadAllCustomProcessorsForRefApp();
 		createServicePools();
@@ -178,13 +185,12 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		importRefApps();
 		createTestCases();
 		deployRefApps();
-		String deploymentUrl = getDeploymentUrl();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
 		LOG.info("Trucking Ref App Environment creation completed[ " + endTime.toString() + "]");
 		LOG.info("Trucking Ref App environment creation time["+  + envCreationTime.getSeconds() + " seconds]");
-		LOG.info("Trucking Ref App SAM URL: " + deploymentUrl);
+		LOG.info("Trucking Ref App SAM URL: " + getDeploymentUrl());
 	}
 
 
@@ -211,8 +217,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		killAllRefApps();
 		deleteAllRefApps();
 		deleteAllCustomUDFsForRefApp();
-		//deleteAllCustomSources();
-		//deleteAllCustomSinks();
+		deleteAllCustomSources();
+		deleteAllCustomSinks();
 		deleteAllCustomModels();
 		deleteAllCustomProcessorsRefApp();
 		deleteAllEnvironments();
@@ -240,15 +246,16 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	}
 	
 	public void deployRefApps() {
-		DateTime start = new DateTime();
-		LOG.info("Starting to Deploy All Ref Apps");
-		
-		deployTruckingRefApp();
-		
-		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Deploying all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");
-		
+		if(deployRefApps) {
+			DateTime start = new DateTime();
+			LOG.info("Starting to Deploy All Ref Apps");
+			
+			deployTruckingRefApp();
+			
+			DateTime end = new DateTime();
+			Seconds creationTime = Seconds.secondsBetween(start, end);
+			LOG.info("Finished Deploying all Ref Apps. Time taken[ "+creationTime.getSeconds() + " seconds ]");			
+		}
 	}
 	
 	public void killAllRefApps() {
@@ -367,25 +374,32 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public void uploadAllCustomSources() {
 		
-		DateTime start = new DateTime();
-		LOG.info("Starting to Upload all Custom Sources");
+		if(registerCustomSourcesSinks) {
+			DateTime start = new DateTime();
+			LOG.info("Starting to Upload all Custom Sources");
+			
+			uploadCustomKinesisSource();
+			
+			DateTime end = new DateTime();
+			Seconds creationTime = Seconds.secondsBetween(start, end);
+			LOG.info("Finished Uploading all Custom Sources. Time taken[ "+creationTime.getSeconds() + " seconds ]");			
+		}
 		
-		uploadCustomKinesisSource();
-		
-		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Uploading all Custom Sources. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
 	}
 	
 	public void uploadAllCustomSinks() {
-		DateTime start = new DateTime();
-		LOG.info("Starting to Upload all Custom Sinks");
 		
-		uploadCustomS3Sink();
+		if(registerCustomSourcesSinks) {
+			DateTime start = new DateTime();
+			LOG.info("Starting to Upload all Custom Sinks");
+			
+			uploadCustomS3Sink();
+			
+			DateTime end = new DateTime();
+			Seconds creationTime = Seconds.secondsBetween(start, end);
+			LOG.info("Finished Uploading all Custom Sinks. Time taken[ "+creationTime.getSeconds() + " seconds ]");				
+		}
 		
-		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Uploading all Custom Sinks. Time taken[ "+creationTime.getSeconds() + " seconds ]");			
 	}
 	
 	public void uploadAllModels() {
@@ -529,14 +543,17 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 
 	public void deleteAllCustomSources() {
 		
-		DateTime start = new DateTime();
-		LOG.info("Starting to Delete all Custom Sources");
-		
-		sourceSinkSDK.deleteCustomComponent(ComponentType.SOURCE, kinesisSourceName);
-		
-		DateTime end = new DateTime();
-		Seconds creationTime = Seconds.secondsBetween(start, end);
-		LOG.info("Finished Deleting all Custom Processors. Time taken[ "+creationTime.getSeconds() + " seconds ]");		
+		if(registerCustomSourcesSinks) {
+			DateTime start = new DateTime();
+			LOG.info("Starting to Delete all Custom Sources");
+			
+			sourceSinkSDK.deleteCustomComponent(ComponentType.SOURCE, kinesisSourceName);
+			
+			DateTime end = new DateTime();
+			Seconds creationTime = Seconds.secondsBetween(start, end);
+			LOG.info("Finished Deleting all Custom Processors. Time taken[ "+creationTime.getSeconds() + " seconds ]");				
+		}
+	
 		
 	}	
 	

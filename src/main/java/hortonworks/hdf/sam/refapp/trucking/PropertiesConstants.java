@@ -13,11 +13,13 @@ public class PropertiesConstants {
 	public static final String SAM_EXTENSIONS_HOME = "sam.extensions.home";
 	public static final String SAM_CUSTOM_ARTIFACT_SUFFIX = "sam.custom.artifact.suffix";
 	public static final String SAM_SCHEMA_REGISTRY_URL = "sam.schema.registry.url";
+	public static final String SAM_REGISTER_CUSTOM_SOURCES_SINKS = "sam.register.custom.sources.sinks";
 		
 	/* Properties speciic to Deployer App */
 	public static final String SAM_SERVICE_POOL_HDF_NAME = "sam.service.pool.hdf";
 	public static final String SAM_SERVICE_POOL_HDP_NAME = "sam.service.pool.hdp";
 	public static final String SAM_ENV_NAME ="sam.env.name";
+	public static final String SAM_DEPLOY_REF_APPS = "sam.deploy.refapps";
 	
 	/* Constants used by Test Cases for Streaming Ref Advanced App */
 	public static final String TEST_1_NORMAL_EVENT_NO_PREDICTION_TEST_CASE = "Test-Normal-Event-No-Violation-Prediction-JUNIT";
