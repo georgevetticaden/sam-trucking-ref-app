@@ -37,5 +37,13 @@ public class TruckingRefAppEnviornmentBuilderTest {
 		((TruckingRefAppEnviornmentBuilderImpl)envBuilder).deleteAllCustomSinks();
 		
 	}
+	
+	@Test
+	public void uploadNormalizationProcessor() {
+		((TruckingRefAppEnviornmentBuilderImpl)envBuilder).uploadNormalizeModelSAMProcessor();
+	}
+	
+	
+	
 
 }
