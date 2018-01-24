@@ -27,15 +27,5 @@ public class DateUtilsTest {
 		LOG.info("Long is : " + geoDateTimeStamp2.getTime()); 
 	}	
 	
-	@Test
-	public void testString() {
-		String samEndpoint = "http://hdf-3-1-build3.field.hortonworks.com:7777/api/v1";
-		String[] urlSplit = samEndpoint.split("/api");
-		String samUI = urlSplit[0];
-		LOG.info(samUI);
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(samUI).append("/#/applications/").append(10).append("/view");
-		LOG.info(buffer.toString());
-	}
 	
 }
