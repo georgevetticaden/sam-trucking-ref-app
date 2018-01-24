@@ -70,7 +70,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String timestampLogUDFName = "TIMESTAMP_LONG";
 	private String weekUDFName = "GET_WEEK";
 	private String enrichWeatherProcessorName = "ENRICH-WEATHER";
-	private String normalizeModelProcessorName = "NORMALIZE-MODEL-FEATURES";
+	private String normalizeModelProcessorName = "NORMALIZE-MODEL-FEATURES_DELAY";
 	private String phoenixEnrichmentProcessorName = "ENRICH-PHOENIX";
 	private String kinesisSourceName = "Kinesis";
 	private String s3SinkName = "S3";	
