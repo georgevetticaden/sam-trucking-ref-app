@@ -95,7 +95,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		
 		createTestCase(SAM_APP_NAME ,testName, PropertiesConstants.TEST_1_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_1_SPEED_STREAM_TEST_DATA);
 		
-		Integer testTimeOutInSeconds = 200;
+		Integer testTimeOutInSeconds = 60;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
@@ -197,7 +197,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 		
 		createTestCase(SAM_APP_NAME ,testName, PropertiesConstants.TEST_2_GEO_STREAM_TEST_DATA, PropertiesConstants.TEST_2_SPEED_STREAM_TEST_DATA);
 		
-		Integer testTimeOutInSeconds = 200;
+		Integer testTimeOutInSeconds = 60;
 		Map<String, List<SamTestComponent>> testCaseExecutionResults = samTestCaseManager.runTestCase(SAM_APP_NAME, testName, testTimeOutInSeconds);	
 		LOG.info(testCaseExecutionResults.toString());
 		
