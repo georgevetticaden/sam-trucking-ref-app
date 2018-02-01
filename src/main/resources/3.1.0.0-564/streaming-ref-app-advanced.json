@@ -1,18 +1,18 @@
 {
-	"topologyName":"streaming-ref-app-advanced_AUTOCREATED",
+	"topologyName":"streaming-ref-app-advanced",
 	"config":"{\"topology.workers\":3,\"topology.acker.executors\":1,\"topology.message.timeout.secs\":30,\"topology.eventlogger.executors\":1,\"clustersSecurityConfig\":[{}],\"topology.worker.childopts\":\"-Xmx3072m\"}",
 	"sources":[
 		{
-			"id":160,
-			"topologyId":10,
+			"id":21,
+			"topologyId":2,
 			"topologyComponentBundleId":1,
-			"versionId":20,
+			"versionId":8,
 			"name":"TruckSpeedEvent",
 			"description":"",
 			"config":{
 				"properties":{
-					"cluster":"3",
-					"consumerGroupId":"ref-speed-12012",
+					"cluster":"1",
+					"consumerGroupId":"ref-speed-12013",
 					"retryDelayPeriodMs":2,
 					"maximumUncommittedOffsets":10000000,
 					"maxRecordsPerPoll":"500",
@@ -21,7 +21,7 @@
 					"emitNullTuples":false,
 					"partitionRefreshPeriodMs":2000,
 					"securityProtocol":"PLAINTEXT",
-					"bootstrapServers":"hdf-hoosac4.field.hortonworks.com:6667,hdf-hoosac5.field.hortonworks.com:6667,hdf-hoosac6.field.hortonworks.com:6667",
+					"bootstrapServers":"hdf-3-1-release4.field.hortonworks.com:6667,hdf-3-1-release5.field.hortonworks.com:6667,hdf-3-1-release6.field.hortonworks.com:6667",
 					"retryDelayMaximumMs":10000,
 					"fetchMaximumBytesPerPartition":"1048576",
 					"firstPollOffsetStrategy":"LATEST",
@@ -42,11 +42,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":211,
-					"versionId":20,
+					"id":25,
+					"versionId":8,
 					"streamId":"kafka_stream_105",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -94,22 +94,22 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516756917405
+			"timestamp":1517447614126
 		},
 		{
-			"id":159,
-			"topologyId":10,
+			"id":20,
+			"topologyId":2,
 			"topologyComponentBundleId":1,
-			"versionId":20,
+			"versionId":8,
 			"name":"TruckGeoEvent",
 			"description":"",
 			"config":{
 				"properties":{
-					"cluster":"3",
-					"consumerGroupId":"ref-geo-12012",
+					"cluster":"1",
+					"consumerGroupId":"ref-geo-12013",
 					"retryDelayPeriodMs":2,
 					"maximumUncommittedOffsets":10000000,
 					"maxRecordsPerPoll":"500",
@@ -118,7 +118,7 @@
 					"emitNullTuples":false,
 					"partitionRefreshPeriodMs":2000,
 					"securityProtocol":"PLAINTEXT",
-					"bootstrapServers":"hdf-hoosac4.field.hortonworks.com:6667,hdf-hoosac5.field.hortonworks.com:6667,hdf-hoosac6.field.hortonworks.com:6667",
+					"bootstrapServers":"hdf-3-1-release4.field.hortonworks.com:6667,hdf-3-1-release5.field.hortonworks.com:6667,hdf-3-1-release6.field.hortonworks.com:6667",
 					"retryDelayMaximumMs":10000,
 					"fetchMaximumBytesPerPartition":"1048576",
 					"firstPollOffsetStrategy":"LATEST",
@@ -139,11 +139,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":210,
-					"versionId":20,
+					"id":24,
+					"versionId":8,
 					"streamId":"kafka_stream_104",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -211,40 +211,41 @@
 							"optional":true
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516756917389
+			"timestamp":1517447614121
 		}
 	],
 	"sinks":[
 		{
-			"id":194,
-			"topologyId":10,
+			"id":35,
+			"topologyId":2,
 			"topologyComponentBundleId":11,
-			"versionId":20,
+			"versionId":8,
 			"name":"Operational-Store-Violation-Events",
 			"description":"",
 			"config":{
 				"properties":{
 					"writeToWAL":true,
-					"cluster":"4",
+					"cluster":"2",
 					"columnFamily":"events",
 					"parallelism":1,
 					"rowKeyField":"eventTime",
+					"topic":"",
 					"batchSize":100,
 					"clusters":"datalake_AUTOCREATED",
 					"table":"default:violation_events"
 				}
 			},
 			"reconfigure":false,
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":193,
-			"topologyId":10,
+			"id":36,
+			"topologyId":2,
 			"topologyComponentBundleId":10,
-			"versionId":20,
+			"versionId":8,
 			"name":"Data-Lake-HDFS",
 			"description":"",
 			"config":{
@@ -266,7 +267,7 @@
 						"speed",
 						"eventTimeLong"
 					],
-					"cluster":"4",
+					"cluster":"2",
 					"path":"/apps/trucking-app",
 					"extension":".txt",
 					"rotationPolicy":{
@@ -277,25 +278,26 @@
 					},
 					"prefix":"",
 					"parallelism":1,
+					"topic":"",
 					"countPolicyValue":1000,
 					"clusters":"datalake_AUTOCREATED"
 				}
 			},
 			"reconfigure":false,
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":174,
-			"topologyId":10,
+			"id":37,
+			"topologyId":2,
 			"topologyComponentBundleId":16,
-			"versionId":20,
+			"versionId":8,
 			"name":"Dashboard-Predictions",
 			"description":"",
 			"config":{
 				"properties":{
-					"cluster":"4",
+					"cluster":"2",
 					"clusterReplication":1,
-					"segmentGranularity":"FIFTEEN_MINUTE",
+					"segmentGranularity":"HOUR",
 					"indexRetryPeriod":"PT10M",
 					"maxBatchSize":2000,
 					"maxPendingBatches":5,
@@ -318,7 +320,7 @@
 					"timestampField":"processingTime",
 					"lingerMillis":0,
 					"queryGranularity":"MINUTE",
-					"dataSource":"alerts-violation-predictions-cube-202",
+					"dataSource":"alerts-violation-predictions-cube-hoosac-2",
 					"clusters":"datalake_AUTOCREATED",
 					"dimensions":[
 						"ViolationPredicted",
@@ -340,20 +342,20 @@
 				}
 			},
 			"reconfigure":false,
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":175,
-			"topologyId":10,
+			"id":38,
+			"topologyId":2,
 			"topologyComponentBundleId":16,
-			"versionId":20,
+			"versionId":8,
 			"name":"Alerts-Speeding-Driver-Cube",
 			"description":"",
 			"config":{
 				"properties":{
-					"cluster":"4",
+					"cluster":"2",
 					"clusterReplication":1,
-					"segmentGranularity":"FIFTEEN_MINUTE",
+					"segmentGranularity":"HOUR",
 					"indexRetryPeriod":"PT10M",
 					"maxBatchSize":2000,
 					"maxPendingBatches":5,
@@ -376,7 +378,7 @@
 					"timestampField":"processingTime",
 					"lingerMillis":0,
 					"queryGranularity":"MINUTE",
-					"dataSource":"alerts-speeding-drivers-cube-202",
+					"dataSource":"alerts-speeding-drivers-cube-hoosac-2",
 					"clusters":"datalake_AUTOCREATED",
 					"dimensions":[
 						"driverId",
@@ -387,15 +389,15 @@
 				}
 			},
 			"reconfigure":false,
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		}
 	],
 	"processors":[
 		{
-			"id":161,
-			"topologyId":10,
+			"id":22,
+			"topologyId":2,
 			"topologyComponentBundleId":7,
-			"versionId":20,
+			"versionId":8,
 			"name":"JOIN",
 			"description":"",
 			"config":{
@@ -447,11 +449,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":212,
-					"versionId":20,
+					"id":26,
+					"versionId":8,
 					"streamId":"join_processor_stream_106",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -524,16 +526,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":162,
-			"topologyId":10,
+			"id":23,
+			"topologyId":2,
 			"topologyComponentBundleId":4,
-			"versionId":20,
+			"versionId":8,
 			"name":"EventType",
 			"description":"",
 			"config":{
@@ -849,19 +851,19 @@
 						}
 					],
 					"rules":[
-						55,
-						56
+						7,
+						8
 					]
 				}
 			},
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":213,
-					"versionId":20,
+					"id":27,
+					"versionId":8,
 					"streamId":"rule_transform_stream_46",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -934,14 +936,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":214,
-					"versionId":20,
+					"id":28,
+					"versionId":8,
 					"streamId":"rule_notifier_stream_46",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1014,14 +1016,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":215,
-					"versionId":20,
+					"id":29,
+					"versionId":8,
 					"streamId":"rule_transform_stream_67",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1094,14 +1096,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":216,
-					"versionId":20,
+					"id":30,
+					"versionId":8,
 					"streamId":"rule_notifier_stream_67",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1174,16 +1176,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":163,
-			"topologyId":10,
+			"id":24,
+			"topologyId":2,
 			"topologyComponentBundleId":9,
-			"versionId":20,
+			"versionId":8,
 			"name":"Split",
 			"description":"",
 			"config":{
@@ -1365,18 +1367,18 @@
 						}
 					],
 					"rules":[
-						57
+						9
 					]
 				}
 			},
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":217,
-					"versionId":20,
+					"id":31,
+					"versionId":8,
 					"streamId":"projection_transform_stream_170",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1459,14 +1461,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":218,
-					"versionId":20,
+					"id":32,
+					"versionId":8,
 					"streamId":"projection_notifier_stream_170",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1549,16 +1551,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":164,
-			"topologyId":10,
-			"topologyComponentBundleId":28,
-			"versionId":20,
+			"id":25,
+			"topologyId":2,
+			"topologyComponentBundleId":21,
+			"versionId":8,
 			"name":"ENRICH-WEATHER",
 			"description":"",
 			"config":{
@@ -1645,11 +1647,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":219,
-					"versionId":20,
+					"id":33,
+					"versionId":8,
 					"streamId":"custom_processor_stream_190",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"splitJoinValue",
@@ -1672,16 +1674,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":165,
-			"topologyId":10,
-			"topologyComponentBundleId":30,
-			"versionId":20,
+			"id":26,
+			"topologyId":2,
+			"topologyComponentBundleId":23,
+			"versionId":8,
 			"name":"ENRICH-Timesheet",
 			"description":"",
 			"config":{
@@ -1725,11 +1727,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":220,
-					"versionId":20,
+					"id":34,
+					"versionId":8,
 					"streamId":"custom_processor_stream_189",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"splitJoinValue",
@@ -1747,16 +1749,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":166,
-			"topologyId":10,
-			"topologyComponentBundleId":30,
-			"versionId":20,
+			"id":27,
+			"topologyId":2,
+			"topologyComponentBundleId":23,
+			"versionId":8,
 			"name":"ENRICH-HR",
 			"description":"",
 			"config":{
@@ -1868,18 +1870,18 @@
 					"config.enrichedOutputFields":"driverCertification, driverWagePlan",
 					"config.secureCluster":false,
 					"name":"ENRICH-PHOENIX_AUTOCREATED",
-					"digest":"72971e3a5909bc20090732794fb914253e0e50a479aaf4e79fc3630fd9dd5040",
+					"digest":"c1560617409a78d982510a042e07aa5f265847e70fb9d06a8b4e59409c5d03f1",
 					"config.kerberosKeyTabFile":""
 				}
 			},
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":221,
-					"versionId":20,
+					"id":35,
+					"versionId":8,
 					"streamId":"custom_processor_stream_171",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -1972,16 +1974,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":167,
-			"topologyId":10,
+			"id":28,
+			"topologyId":2,
 			"topologyComponentBundleId":7,
-			"versionId":20,
+			"versionId":8,
 			"name":"JOIN-ENRICHMENTS",
 			"description":"",
 			"config":{
@@ -2048,11 +2050,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":222,
-					"versionId":20,
+					"id":36,
+					"versionId":8,
 					"streamId":"join_processor_stream_191",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -2170,16 +2172,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":168,
-			"topologyId":10,
-			"topologyComponentBundleId":29,
-			"versionId":20,
+			"id":29,
+			"topologyId":2,
+			"topologyComponentBundleId":22,
+			"versionId":8,
 			"name":"NORMALIZE-MODEL-FEATURES",
 			"description":"",
 			"config":{
@@ -2376,11 +2378,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":223,
-					"versionId":20,
+					"id":37,
+					"versionId":8,
 					"streamId":"custom_processor_stream_71",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"eventTime",
@@ -2518,16 +2520,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":169,
-			"topologyId":10,
+			"id":30,
+			"topologyId":2,
 			"topologyComponentBundleId":8,
-			"versionId":20,
+			"versionId":8,
 			"name":"Predict",
 			"description":"",
 			"config":{
@@ -2539,11 +2541,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":224,
-					"versionId":20,
+					"id":38,
+					"versionId":8,
 					"streamId":"pmml_stream_193",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"ViolationPredicted",
@@ -2621,22 +2623,22 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":170,
-			"topologyId":10,
+			"id":31,
+			"topologyId":2,
 			"topologyComponentBundleId":4,
-			"versionId":20,
+			"versionId":8,
 			"name":"Prediction",
 			"description":"",
 			"config":{
 				"properties":{
 					"rules":[
-						58
+						10
 					],
 					"outputStreams":[
 						{
@@ -2810,11 +2812,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":225,
-					"versionId":20,
+					"id":39,
+					"versionId":8,
 					"streamId":"rule_transform_stream_75",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"ViolationPredicted",
@@ -2892,14 +2894,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":226,
-					"versionId":20,
+					"id":40,
+					"versionId":8,
 					"streamId":"rule_notifier_stream_75",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"ViolationPredicted",
@@ -2977,22 +2979,22 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":171,
-			"topologyId":10,
+			"id":32,
+			"topologyId":2,
 			"topologyComponentBundleId":5,
-			"versionId":20,
+			"versionId":8,
 			"name":"DriverAvgSpeed",
 			"description":"",
 			"config":{
 				"properties":{
 					"rules":[
-						10
+						2
 					],
 					"outputStreams":[
 						{
@@ -3056,11 +3058,11 @@
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":227,
-					"versionId":20,
+					"id":41,
+					"versionId":8,
 					"streamId":"window_transform_stream_108",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3083,14 +3085,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":228,
-					"versionId":20,
+					"id":42,
+					"versionId":8,
 					"streamId":"window_notifier_stream_108",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3113,16 +3115,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":172,
-			"topologyId":10,
+			"id":33,
+			"topologyId":2,
 			"topologyComponentBundleId":4,
-			"versionId":20,
+			"versionId":8,
 			"name":"isDriverSpeeding",
 			"description":"",
 			"config":{
@@ -3184,18 +3186,18 @@
 						}
 					],
 					"rules":[
-						59
+						11
 					]
 				}
 			},
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":229,
-					"versionId":20,
+					"id":43,
+					"versionId":8,
 					"streamId":"rule_transform_stream_47",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3218,14 +3220,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":230,
-					"versionId":20,
+					"id":44,
+					"versionId":8,
 					"streamId":"rule_notifier_stream_47",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3248,16 +3250,16 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":173,
-			"topologyId":10,
+			"id":34,
+			"topologyId":2,
 			"topologyComponentBundleId":9,
-			"versionId":20,
+			"versionId":8,
 			"name":"Round",
 			"description":"",
 			"config":{
@@ -3319,18 +3321,18 @@
 						}
 					],
 					"rules":[
-						60
+						12
 					]
 				}
 			},
 			"reconfigure":false,
 			"outputStreams":[
 				{
-					"id":231,
-					"versionId":20,
+					"id":45,
+					"versionId":8,
 					"streamId":"projection_transform_stream_110",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3353,14 +3355,14 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				},
 				{
-					"id":232,
-					"versionId":20,
+					"id":46,
+					"versionId":8,
 					"streamId":"projection_notifier_stream_110",
 					"description":null,
-					"topologyId":10,
+					"topologyId":2,
 					"fields":[
 						{
 							"name":"driverId",
@@ -3383,71 +3385,71 @@
 							"optional":false
 						}
 					],
-					"timestamp":1516757374899
+					"timestamp":1517449662487
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		}
 	],
 	"edges":[
 		{
-			"id":171,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":160,
-			"toId":161,
+			"id":22,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":21,
+			"toId":22,
 			"streamGroupings":[
 				{
-					"streamId":211,
+					"streamId":25,
 					"grouping":"FIELDS",
 					"fields":[
 						"driverId"
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":170,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":159,
-			"toId":161,
+			"id":21,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":20,
+			"toId":22,
 			"streamGroupings":[
 				{
-					"streamId":210,
+					"streamId":24,
 					"grouping":"FIELDS",
 					"fields":[
 						"driverId"
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":172,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":161,
-			"toId":162,
+			"id":23,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":22,
+			"toId":23,
 			"streamGroupings":[
 				{
-					"streamId":212,
+					"streamId":26,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":173,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":162,
-			"toId":171,
+			"id":24,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":23,
+			"toId":32,
 			"streamGroupings":[
 				{
-					"streamId":213,
+					"streamId":27,
 					"grouping":"FIELDS",
 					"fields":[
 						"driverId",
@@ -3456,261 +3458,261 @@
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":174,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":162,
-			"toId":163,
+			"id":25,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":23,
+			"toId":24,
 			"streamGroupings":[
 				{
-					"streamId":215,
+					"streamId":29,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":206,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":162,
-			"toId":193,
+			"id":26,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":23,
+			"toId":36,
 			"streamGroupings":[
 				{
-					"streamId":213,
+					"streamId":27,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":207,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":162,
-			"toId":194,
+			"id":27,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":23,
+			"toId":35,
 			"streamGroupings":[
 				{
-					"streamId":213,
+					"streamId":27,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":175,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":163,
-			"toId":166,
+			"id":28,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":24,
+			"toId":27,
 			"streamGroupings":[
 				{
-					"streamId":217,
+					"streamId":31,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":176,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":163,
-			"toId":165,
+			"id":29,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":24,
+			"toId":26,
 			"streamGroupings":[
 				{
-					"streamId":217,
+					"streamId":31,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":177,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":163,
-			"toId":164,
+			"id":30,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":24,
+			"toId":25,
 			"streamGroupings":[
 				{
-					"streamId":217,
+					"streamId":31,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":178,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":164,
-			"toId":167,
+			"id":31,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":25,
+			"toId":28,
 			"streamGroupings":[
 				{
-					"streamId":219,
+					"streamId":33,
 					"grouping":"FIELDS",
 					"fields":[
 						"splitJoinValue"
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":179,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":165,
-			"toId":167,
+			"id":32,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":26,
+			"toId":28,
 			"streamGroupings":[
 				{
-					"streamId":220,
+					"streamId":34,
 					"grouping":"FIELDS",
 					"fields":[
 						"splitJoinValue"
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":180,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":166,
-			"toId":167,
+			"id":33,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":27,
+			"toId":28,
 			"streamGroupings":[
 				{
-					"streamId":221,
+					"streamId":35,
 					"grouping":"FIELDS",
 					"fields":[
 						"splitJoinValue"
 					]
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":181,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":167,
-			"toId":168,
+			"id":34,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":28,
+			"toId":29,
 			"streamGroupings":[
 				{
-					"streamId":222,
+					"streamId":36,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":182,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":168,
-			"toId":169,
+			"id":35,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":29,
+			"toId":30,
 			"streamGroupings":[
 				{
-					"streamId":223,
+					"streamId":37,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":183,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":169,
-			"toId":170,
+			"id":36,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":30,
+			"toId":31,
 			"streamGroupings":[
 				{
-					"streamId":224,
+					"streamId":38,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":184,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":170,
-			"toId":174,
+			"id":37,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":31,
+			"toId":37,
 			"streamGroupings":[
 				{
-					"streamId":225,
+					"streamId":39,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":185,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":171,
-			"toId":172,
+			"id":38,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":32,
+			"toId":33,
 			"streamGroupings":[
 				{
-					"streamId":227,
+					"streamId":41,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":186,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":172,
-			"toId":173,
+			"id":39,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":33,
+			"toId":34,
 			"streamGroupings":[
 				{
-					"streamId":229,
+					"streamId":43,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
-			"id":187,
-			"versionId":20,
-			"topologyId":10,
-			"fromId":173,
-			"toId":175,
+			"id":40,
+			"versionId":8,
+			"topologyId":2,
+			"fromId":34,
+			"toId":38,
 			"streamGroupings":[
 				{
-					"streamId":231,
+					"streamId":45,
 					"grouping":"SHUFFLE",
 					"fields":null
 				}
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		}
 	],
 	"rules":[
 		{
 			"reconfigure":false,
-			"id":55,
-			"versionId":20,
-			"topologyId":10,
+			"id":7,
+			"versionId":8,
+			"topologyId":2,
 			"name":"Violation Event",
 			"description":"Violations",
 			"streams":[
@@ -3734,13 +3736,13 @@
 				"rule_transform_stream_46",
 				"rule_notifier_stream_46"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
 			"reconfigure":false,
-			"id":56,
-			"versionId":20,
-			"topologyId":10,
+			"id":8,
+			"versionId":8,
+			"topologyId":2,
 			"name":"Non Violation Events",
 			"description":"Events that are not violations",
 			"streams":[
@@ -3764,13 +3766,13 @@
 				"rule_transform_stream_67",
 				"rule_notifier_stream_67"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
 			"reconfigure":false,
-			"id":57,
-			"versionId":20,
-			"topologyId":10,
+			"id":9,
+			"versionId":8,
+			"topologyId":2,
 			"name":"projection_auto_generated",
 			"description":"projection description auto generated",
 			"streams":[
@@ -3851,13 +3853,13 @@
 				"projection_transform_stream_799",
 				"projection_notifier_stream_799"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
 			"reconfigure":false,
-			"id":58,
-			"versionId":20,
-			"topologyId":10,
+			"id":10,
+			"versionId":8,
+			"topologyId":2,
 			"name":"Violation Predicted",
 			"description":"model returned a prediction",
 			"streams":[
@@ -3881,13 +3883,13 @@
 				"rule_transform_stream_75",
 				"rule_notifier_stream_75"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
 			"reconfigure":false,
-			"id":59,
-			"versionId":20,
-			"topologyId":10,
+			"id":11,
+			"versionId":8,
+			"topologyId":2,
 			"name":"Speeding Driver",
 			"description":"speeding drivers",
 			"streams":[
@@ -3911,13 +3913,13 @@
 				"rule_transform_stream_47",
 				"rule_notifier_stream_47"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		},
 		{
 			"reconfigure":false,
-			"id":60,
-			"versionId":20,
-			"topologyId":10,
+			"id":12,
+			"versionId":8,
+			"topologyId":2,
 			"name":"projection_auto_generated",
 			"description":"projection description auto generated",
 			"streams":[
@@ -3958,15 +3960,15 @@
 				"projection_transform_stream_809",
 				"projection_notifier_stream_809"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		}
 	],
 	"windows":[
 		{
 			"reconfigure":false,
-			"id":10,
-			"versionId":20,
-			"topologyId":10,
+			"id":2,
+			"versionId":8,
+			"topologyId":2,
 			"name":"window_auto_generated",
 			"description":"window description auto generated",
 			"streams":[
@@ -4027,7 +4029,7 @@
 				"window_transform_stream_807",
 				"window_notifier_stream_807"
 			],
-			"timestamp":1516757374899
+			"timestamp":1517449662487
 		}
 	],
 	"branchRules":[
@@ -4035,22 +4037,22 @@
 	],
 	"bundleIdToType":{
 		"11":"HBASE",
+		"22":"CUSTOM",
 		"1":"KAFKA",
+		"23":"CUSTOM",
 		"4":"RULE",
 		"16":"DRUID",
 		"5":"WINDOW",
-		"28":"CUSTOM",
 		"7":"JOIN",
-		"29":"CUSTOM",
 		"8":"PMML",
 		"9":"PROJECTION",
-		"30":"CUSTOM",
-		"10":"HDFS"
+		"10":"HDFS",
+		"21":"CUSTOM"
 	},
 	"topologyEditorMetadata":{
-		"topologyId":10,
-		"versionId":20,
-		"data":"{\"sources\":[{\"x\":22.849769592285156,\"y\":117.59642028808594,\"id\":159},{\"x\":27.64240264892578,\"y\":377.9961853027344,\"id\":160}],\"sinks\":[{\"x\":1797.721923828125,\"y\":-101.26720428466797,\"id\":175},{\"x\":2836.1259765625,\"y\":687.9198608398438,\"id\":174},{\"x\":930.255126953125,\"y\":416.3372802734375,\"id\":193},{\"x\":930.255126953125,\"y\":146.35223388671875,\"id\":194}],\"processors\":[{\"x\":319.5124206542969,\"y\":237.8211669921875,\"id\":161},{\"x\":575.4741821289062,\"y\":237.8211669921875,\"id\":162},{\"x\":933.4501953125,\"y\":-101.26720428466797,\"id\":171},{\"x\":1224.203369140625,\"y\":-101.26720428466797,\"id\":172},{\"x\":1505.3712158203125,\"y\":-101.26720428466797,\"id\":173},{\"x\":927.06005859375,\"y\":687.9198608398438,\"id\":163},{\"x\":1300.885498046875,\"y\":354.0330505371094,\"id\":166},{\"x\":1312.068359375,\"y\":687.9198608398438,\"id\":165},{\"x\":1300.885498046875,\"y\":1001.0386352539062,\"id\":164},{\"x\":1636.369873046875,\"y\":687.9198608398438,\"id\":167},{\"x\":2227.46142578125,\"y\":687.9198608398438,\"id\":169},{\"x\":2523.00732421875,\"y\":687.9198608398438,\"id\":170},{\"x\":1944.696044921875,\"y\":687.9198608398438,\"id\":168}],\"graphTransforms\":{\"dragCoords\":[6.108572845294759,142.18305431433419],\"zoomScale\":0.625960623006298},\"customNames\":[{\"uiname\":\"ENRICH-HR\",\"customProcessorName\":\"ENRICH-PHOENIX_AUTOCREATED\"},{\"uiname\":\"ENRICH-Timesheet\",\"customProcessorName\":\"ENRICH-PHOENIX_AUTOCREATED\"},{\"uiname\":\"ENRICH-WEATHER\",\"customProcessorName\":\"ENRICH-WEATHER_AUTOCREATED\"},{\"uiname\":\"NORMALIZE-MODEL-FEATURES\",\"customProcessorName\":\"NORMALIZE-MODEL-FEATURES_DELAY_AUTOCREATED\"}]}",
-		"timestamp":1516757374899
+		"topologyId":2,
+		"versionId":8,
+		"data":"{\"sources\":[{\"x\":32.435035705566406,\"y\":115.99885559082031,\"id\":20},{\"x\":27.64240264892578,\"y\":377.9961853027344,\"id\":21}],\"sinks\":[{\"x\":1797.721923828125,\"y\":-101.26720428466797,\"id\":38},{\"x\":2836.1259765625,\"y\":687.9198608398438,\"id\":37},{\"x\":930.255126953125,\"y\":416.3372802734375,\"id\":36},{\"x\":930.255126953125,\"y\":146.35223388671875,\"id\":35}],\"processors\":[{\"x\":319.5124206542969,\"y\":237.8211669921875,\"id\":22},{\"x\":575.4741821289062,\"y\":237.8211669921875,\"id\":23},{\"x\":933.4501953125,\"y\":-101.26720428466797,\"id\":32},{\"x\":1224.203369140625,\"y\":-101.26720428466797,\"id\":33},{\"x\":1505.3712158203125,\"y\":-101.26720428466797,\"id\":34},{\"x\":927.06005859375,\"y\":687.9198608398438,\"id\":24},{\"x\":1300.885498046875,\"y\":354.0330505371094,\"id\":27},{\"x\":1312.068359375,\"y\":687.9198608398438,\"id\":26},{\"x\":1300.885498046875,\"y\":1001.0386352539062,\"id\":25},{\"x\":1636.369873046875,\"y\":687.9198608398438,\"id\":28},{\"x\":2227.46142578125,\"y\":687.9198608398438,\"id\":30},{\"x\":2523.00732421875,\"y\":687.9198608398438,\"id\":31},{\"x\":1944.696044921875,\"y\":687.9198608398438,\"id\":29}],\"graphTransforms\":{\"dragCoords\":[3.636145248876261,126.09139236489676],\"zoomScale\":0.4235758769884968},\"customNames\":[{\"uiname\":\"ENRICH-HR\",\"customProcessorName\":\"ENRICH-PHOENIX_AUTOCREATED\"},{\"uiname\":\"ENRICH-Timesheet\",\"customProcessorName\":\"ENRICH-PHOENIX_AUTOCREATED\"},{\"uiname\":\"ENRICH-WEATHER\",\"customProcessorName\":\"ENRICH-WEATHER_AUTOCREATED\"},{\"uiname\":\"NORMALIZE-MODEL-FEATURES\",\"customProcessorName\":\"NORMALIZE-MODEL-FEATURES_DELAY_AUTOCREATED\"}]}",
+		"timestamp":1517447822010
 	}
 }
