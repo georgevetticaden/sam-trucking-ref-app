@@ -191,7 +191,7 @@ public class TruckingRefAdvancedAppTest extends BaseTest{
 	}
 			
 	
-	//@Test
+	@Test
 	public void testNormalEventYesViolationPrediction() throws Exception {
 		String testName = PropertiesConstants.TEST_2_NORMAL_EVENT_YES_PREDICTION_TEST_CASE;
 		
