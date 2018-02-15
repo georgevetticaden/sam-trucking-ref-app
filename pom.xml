@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
   	<groupId>hortonworks.hdf.sam.refapp</groupId>
   	<artifactId>sam-trucking-ref-app</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
+  	<version>0.0.1-SNAPSHOT-HDF-3-2</version>
   	<name>sam-trucking-ref-app</name>
   	
 	<properties>
