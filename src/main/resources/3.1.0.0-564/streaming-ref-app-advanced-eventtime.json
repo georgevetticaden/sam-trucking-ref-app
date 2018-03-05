@@ -244,7 +244,7 @@
 							}
 						}
 					],
-					"tranquilityZKconnect":"hdp-2-6-3-ga2.field.hortonworks.com:2181,hdp-2-6-3-ga0.field.hortonworks.com:2181,hdp-2-6-3-ga1.field.hortonworks.com:2181",
+					"tranquilityZKconnect":"hdp-latest-ga2.field.hortonworks.com:2181,hdp-latest-ga0.field.hortonworks.com:2181,hdp-latest-ga1.field.hortonworks.com:2181",
 					"discardStreamId":"DRUID-DISCARD-STREAM-ID",
 					"indexService":"druid/overlord",
 					"blockOnFull":true,
@@ -301,7 +301,7 @@
 							}
 						}
 					],
-					"tranquilityZKconnect":"hdp-2-6-3-ga2.field.hortonworks.com:2181,hdp-2-6-3-ga0.field.hortonworks.com:2181,hdp-2-6-3-ga1.field.hortonworks.com:2181",
+					"tranquilityZKconnect":"hdp-latest-ga2.field.hortonworks.com:2181,hdp-latest-ga0.field.hortonworks.com:2181,hdp-latest-ga1.field.hortonworks.com:2181",
 					"discardStreamId":"DRUID-DISCARD-STREAM-ID",
 					"indexService":"druid/overlord",
 					"blockOnFull":true,
@@ -1162,7 +1162,7 @@
 					"inputSchema":null,
 					"parallelism":1,
 					"description":"Enriches the input schema with data from Phoenix based on user supplied SQL",
-					"config.zkServerUrl":"hdp-2-6-3-ga0.field.hortonworks.com:2181",
+					"config.zkServerUrl":"hdp-latest-ga0.field.hortonworks.com:2181",
 					"customProcessorImpl":"hortonworks.hdf.sam.custom.processor.enrich.phoenix.PhoenixEnrichmentSecureProcessor",
 					"config.enrichedOutputFields":"driverFatigueByHours, driverFatigueByMiles",
 					"config.secureCluster":false,
@@ -1312,7 +1312,7 @@
 					"inputSchema":null,
 					"parallelism":1,
 					"description":"Enriches the input schema with data from Phoenix based on user supplied SQL",
-					"config.zkServerUrl":"hdp-2-6-3-ga0.field.hortonworks.com:2181",
+					"config.zkServerUrl":"hdp-latest-ga0.field.hortonworks.com:2181",
 					"customProcessorImpl":"hortonworks.hdf.sam.custom.processor.enrich.phoenix.PhoenixEnrichmentSecureProcessor",
 					"config.enrichedOutputFields":"driverCertification, driverWagePlan",
 					"config.secureCluster":false,
