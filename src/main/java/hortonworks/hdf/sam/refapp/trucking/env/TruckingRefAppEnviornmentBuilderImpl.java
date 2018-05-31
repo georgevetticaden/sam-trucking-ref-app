@@ -81,6 +81,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private String samEnvName;
 	private String samAppName;
 	private boolean deployRefApps;
+	private boolean useSingleHdpHDF;
 	
 	
 	
@@ -110,7 +111,8 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_NAME),
 			 envProperties.getProperty(PropertiesConstants.SAM_ENV_NAME),
 			 envProperties.getProperty(PropertiesConstants.SAM_APP_NAME),
-			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_DEPLOY_REF_APPS)));
+			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_DEPLOY_REF_APPS)),
+			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_SINGLE_HDP_HDF)));
 					 
 	}
 	
@@ -118,12 +120,12 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 												String extensionsArtifactSuffix, boolean registerCustomSorucesSinksConfig,
 											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 											    String hdfPoolName, String hdpPoolName,
-												String envName, String appName, boolean deployRefAppsConfig) {
+												String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHdpHdf) {
 		
 
 		init(samRestURL, extensionHomeDirectory, extensionsArtifactSuffix, registerCustomSorucesSinksConfig,
 				hdfAmbariClusterEndpointUrl, hdpAmbariClusterEndpointUrl,
-				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName, deployRefAppsConfig);
+				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName, deployRefAppsConfig, useSingleHdpHdf);
 		
 	}
 
@@ -132,7 +134,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			String hdfAmbariClusterEndpointUrl,
 			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 			String hdfPoolName, String hdpPoolName,
-			String envName, String appName, boolean deployRefAppsConfig) {
+			String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHDPHDF) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.samAppSDK = new SAMAppSDKUtils(samRestURL);
@@ -156,6 +158,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		this.samEnvName = envName;
 		this.samAppName = appName;
 		this.deployRefApps = deployRefAppsConfig;
+		this.useSingleHdpHDF = useSingleHDPHDF;
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -320,12 +323,17 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime start = new DateTime();
 		LOG.info("Starting to create All Service Pools");
 		
-		samServicePoolManager.createServicePool(hdfServicePoolName, hdfAmbariClusterEndpointUrl, "admin", "admin");
-		LOG.info("Service Pool["+ hdfServicePoolName +"] created with Ambari Endpoint[" + hdfAmbariClusterEndpointUrl +"]");
+		if(useSingleHdpHDF) {
+			samServicePoolManager.createServicePool(hdpServicePoolName, hdpAmbariClusterEndpointUrl, "admin", "admin");
+			LOG.info("Service Pool for connected Data Platform["+ hdfServicePoolName +"] created with Ambari Endpoint[" + hdfAmbariClusterEndpointUrl +"]");
+		} else {
+			samServicePoolManager.createServicePool(hdfServicePoolName, hdfAmbariClusterEndpointUrl, "admin", "admin");
+			LOG.info("Service Pool["+ hdfServicePoolName +"] created with Ambari Endpoint[" + hdfAmbariClusterEndpointUrl +"]");
 
-		samServicePoolManager.createServicePool(hdpServicePoolName, hdpAmbariClusterEndpointUrl, "admin", "admin");
-		LOG.info("Service Pool["+ hdpServicePoolName +"] created with Ambari Endpoint[" + hdpAmbariClusterEndpointUrl +"]");
-
+			samServicePoolManager.createServicePool(hdpServicePoolName, hdpAmbariClusterEndpointUrl, "admin", "admin");
+			LOG.info("Service Pool["+ hdpServicePoolName +"] created with Ambari Endpoint[" + hdpAmbariClusterEndpointUrl +"]");
+		}
+	
 		
 		DateTime end = new DateTime();
 		Seconds creationTime = Seconds.secondsBetween(start, end);
@@ -607,15 +615,19 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	private List<ServiceEnvironmentMapping> createServiceMappings() {
 		List<ServiceEnvironmentMapping> mappings = new ArrayList<ServiceEnvironmentMapping>();
 		
-		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "STORM"));
-		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "KAFKA"));
-		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "ZOOKEEPER"));
-		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "AMBARI_INFRA"));
-		mappings.add(new ServiceEnvironmentMapping(hdfServicePoolName, "AMBARI_METRICS"));
-		
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "DRUID"));
 		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "HBASE"));
-		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "HDFS"));		
+		mappings.add(new ServiceEnvironmentMapping(hdpServicePoolName, "HDFS"));	
+		
+		String poolName = useSingleHdpHDF ? hdpServicePoolName : hdfServicePoolName;
+		
+		mappings.add(new ServiceEnvironmentMapping(poolName, "STORM"));
+		mappings.add(new ServiceEnvironmentMapping(poolName, "KAFKA"));
+		mappings.add(new ServiceEnvironmentMapping(poolName, "ZOOKEEPER"));
+		mappings.add(new ServiceEnvironmentMapping(poolName, "AMBARI_INFRA"));
+		mappings.add(new ServiceEnvironmentMapping(poolName, "AMBARI_METRICS"));
+		
+	
 		return mappings;
 	}	
 	
@@ -655,8 +667,14 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 			throw new RuntimeException(errMsg);
 		}		
 		
+		String samSingleHDPHDF =  envProperties.getProperty(PropertiesConstants.SAM_SINGLE_HDP_HDF);
+		if(StringUtils.isEmpty(samSingleHDPHDF)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_SINGLE_HDP_HDF +"] is required";
+			throw new RuntimeException(errMsg);
+		}			
+		
 		String hdfServicePoolAmbariUrl = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL);
-		if(StringUtils.isEmpty(hdfServicePoolAmbariUrl)) {
+		if("false".equals(samSingleHDPHDF) && StringUtils.isEmpty(hdfServicePoolAmbariUrl)) {
 			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}		
@@ -673,7 +691,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		}	
 		
 		String hdfServicePoolName = envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME);
-		if(StringUtils.isEmpty(hdfServicePoolName)) {
+		if("false".equals(samSingleHDPHDF) && StringUtils.isEmpty(hdfServicePoolName)) {
 			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDF_NAME +"] is required";
 			throw new RuntimeException(errMsg);
 		}	
