@@ -242,7 +242,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime start = new DateTime();
 		LOG.info("Starting to IMport all Ref Apps");
 		
-		importTruckingRefAppAdvanced();
+		importTruckingRefApp();
 		
 		DateTime end = new DateTime();
 		Seconds creationTime = Seconds.secondsBetween(start, end);
@@ -298,7 +298,10 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
 	}
 	
-	
+	public void importTruckingRefApp() {
+		Resource samImportResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_FILE_LOCATION);
+		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
+	}	
 
 	
 	public void deployTruckingRefApp() {
