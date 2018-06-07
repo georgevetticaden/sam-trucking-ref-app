@@ -187,8 +187,8 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 		createServicePools();
 		createEnvironments();
 		importRefApps();
-		createTestCases();
-		deployRefApps();
+		//createTestCases();
+		//deployRefApps();
 		
 		DateTime endTime = new DateTime();
 		Seconds envCreationTime = Seconds.secondsBetween(startTime, endTime);
