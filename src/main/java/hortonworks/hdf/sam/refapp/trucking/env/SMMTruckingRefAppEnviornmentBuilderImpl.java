@@ -37,10 +37,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnviornmentBuilder {
+public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnviornmentBuilder {
 	
 	
-	protected final Logger LOG = LoggerFactory.getLogger(TruckingRefAppEnviornmentBuilderImpl.class);
+	protected final Logger LOG = LoggerFactory.getLogger(SMMTruckingRefAppEnviornmentBuilderImpl.class);
 	private static final int KILL_TIMEOUT_SECONDS = 50;
 	private static final int DEPLOY_TIMEOUT_SECONDS = 50;
 	
@@ -93,12 +93,12 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		}
 		String propFileLocation = args[0];
 		Resource envPropResource = new FileSystemResource(propFileLocation);
-		TruckingRefAppEnviornmentBuilder envBuilder = new TruckingRefAppEnviornmentBuilderImpl(envPropResource);
+		TruckingRefAppEnviornmentBuilder envBuilder = new SMMTruckingRefAppEnviornmentBuilderImpl(envPropResource);
 		envBuilder.buildEnvironment();
 		
 	}
 	
-	public TruckingRefAppEnviornmentBuilderImpl(Resource resource) {
+	public SMMTruckingRefAppEnviornmentBuilderImpl(Resource resource) {
 		Properties envProperties = loadAppPropertiesFile(resource);
 		init(envProperties.getProperty(PropertiesConstants.SAM_REST_URL), 
 			 envProperties.getProperty(PropertiesConstants.SAM_EXTENSIONS_HOME), 
@@ -116,7 +116,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 					 
 	}
 	
-	public TruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, 
+	public SMMTruckingRefAppEnviornmentBuilderImpl(String samRestURL, String extensionHomeDirectory, 
 												String extensionsArtifactSuffix, boolean registerCustomSorucesSinksConfig,
 											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 											    String hdfPoolName, String hdpPoolName,
@@ -242,7 +242,7 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 		DateTime start = new DateTime();
 		LOG.info("Starting to IMport all Ref Apps");
 		
-		importTruckingRefAppAdvanced();
+		importSAMAppForSMM();
 		
 		DateTime end = new DateTime();
 		Seconds creationTime = Seconds.secondsBetween(start, end);
@@ -300,6 +300,11 @@ public class TruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEnvio
 	
 	public void importTruckingRefApp() {
 		Resource samImportResource = new ClassPathResource(PropertiesConstants.SAM_REF_APP_FILE_LOCATION);
+		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
+	}	
+	
+	public void importSAMAppForSMM() {
+		Resource samImportResource = new ClassPathResource(PropertiesConstants.SMM_REF_APP_FILE_LOCATION);
 		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
 	}	
 
