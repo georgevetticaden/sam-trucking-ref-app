@@ -44,7 +44,7 @@ public class PropertiesConstants {
 	/* Other Constants */
 	public static final String SAM_REF_APP_ADVANCE_FILE_LOCATION = "/3.2.0.0-489/streaming-ref-app-advanced.json";
 	public static final String SAM_REF_APP_FILE_LOCATION = "/3.2.0.0-489/streaming-ref-app.json";
-	public static final String SMM_REF_APP_FILE_LOCATION = "/3.2.0.0-489/smm-streaming-ref-app.json";
+	public static final String SMM_REF_APP_FILE_LOCATION = "/3.2.0.0-489/smm-streaming-ref-app-SECURE.json";
 	
 	
 }
