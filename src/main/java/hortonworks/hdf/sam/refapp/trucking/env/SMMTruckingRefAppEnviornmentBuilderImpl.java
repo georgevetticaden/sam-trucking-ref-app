@@ -692,6 +692,19 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_URL +"] is required";
 			throw new RuntimeException(errMsg);
 		}			
+		
+		String hdpAmbariUser =  envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_NAME);
+		if(StringUtils.isEmpty(hdpAmbariUser)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_NAME +"] is required";
+			throw new RuntimeException(errMsg);
+		}
+		
+		String hdpAmbariUserPasswd =  envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_PASSWD);
+		if(StringUtils.isEmpty(hdpAmbariUserPasswd)) {
+			String errMsg = "Property["+PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_PASSWD +"] is required";
+			throw new RuntimeException(errMsg);
+		}		
+		
 		String schemaRegistryUrl = envProperties.getProperty(PropertiesConstants.SAM_SCHEMA_REGISTRY_URL);
 		if(StringUtils.isEmpty(schemaRegistryUrl)) {
 			String errMsg = "Property["+PropertiesConstants.SAM_SCHEMA_REGISTRY_URL +"] is required";

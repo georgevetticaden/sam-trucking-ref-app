@@ -9,6 +9,8 @@ public class PropertiesConstants {
 	public static final String SAM_SERVICE_POOL_HDF_AMBARI_URL = "sam.service.pool.hdf.ambari.url";
 	public static final String SAM_SERVICE_POOL_HDP_AMBARI_URL = "sam.service.pool.hdp.ambari.url";
 	public static final String SAM_SINGLE_HDP_HDF = "sam.use.single.hdp.hdf";
+	public static final String SAM_SERVICE_POOL_HDP_AMBARI_USER_NAME = "sam.service.pool.hdp.ambari.username";
+	public static final String SAM_SERVICE_POOL_HDP_AMBARI_USER_PASSWD = "sam.service.pool.hdp.ambari.passwd";
 	
 	/* Properties specific to Env Builder App */
 	public static final String SAM_EXTENSIONS_HOME = "sam.extensions.home";
@@ -45,6 +47,8 @@ public class PropertiesConstants {
 	public static final String SAM_REF_APP_ADVANCE_FILE_LOCATION = "/3.2.0.0-489/streaming-ref-app-advanced.json";
 	public static final String SAM_REF_APP_FILE_LOCATION = "/3.2.0.0-489/streaming-ref-app.json";
 	public static final String SMM_REF_APP_FILE_LOCATION = "/3.2.0.0-489/smm-streaming-ref-app-SECURE.json";
+	
+	
 	
 	
 }
