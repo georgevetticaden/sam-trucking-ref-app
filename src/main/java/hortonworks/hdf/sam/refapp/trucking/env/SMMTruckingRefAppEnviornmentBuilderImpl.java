@@ -82,6 +82,8 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 	private String samAppName;
 	private boolean deployRefApps;
 	private boolean useSingleHdpHDF;
+	private String hdpAmbarUserName;
+	private String hdpAmbariUserPasswd;
 	
 	
 	
@@ -112,7 +114,9 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 			 envProperties.getProperty(PropertiesConstants.SAM_ENV_NAME),
 			 envProperties.getProperty(PropertiesConstants.SAM_APP_NAME),
 			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_DEPLOY_REF_APPS)),
-			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_SINGLE_HDP_HDF)));
+			 Boolean.valueOf(envProperties.getProperty(PropertiesConstants.SAM_SINGLE_HDP_HDF)),
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_NAME),
+			 envProperties.getProperty(PropertiesConstants.SAM_SERVICE_POOL_HDP_AMBARI_USER_PASSWD));
 					 
 	}
 	
@@ -120,12 +124,13 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 												String extensionsArtifactSuffix, boolean registerCustomSorucesSinksConfig,
 											    String hdfAmbariClusterEndpointUrl, String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 											    String hdfPoolName, String hdpPoolName,
-												String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHdpHdf) {
+												String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHdpHdf, 
+												String hdpAmbariUserName, String hdpAmbariPasswd) {
 		
 
 		init(samRestURL, extensionHomeDirectory, extensionsArtifactSuffix, registerCustomSorucesSinksConfig,
 				hdfAmbariClusterEndpointUrl, hdpAmbariClusterEndpointUrl,
-				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName, deployRefAppsConfig, useSingleHdpHdf);
+				schemaRegistryUrl, hdfPoolName, hdpPoolName, envName, appName, deployRefAppsConfig, useSingleHdpHdf, hdpAmbariUserName, hdpAmbariPasswd);
 		
 	}
 
@@ -134,7 +139,8 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 			String hdfAmbariClusterEndpointUrl,
 			String hdpAmbariClusterEndpointUrl, String schemaRegistryUrl,
 			String hdfPoolName, String hdpPoolName,
-			String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHDPHDF) {
+			String envName, String appName, boolean deployRefAppsConfig, boolean useSingleHDPHDF, 
+			String hdpAmbarUserName, String hdpAmbariUserPasswd ) {
 		this.samRESTUrl = samRestURL;
 		this.udfSDK = new SAMUDFSDKUtils(samRESTUrl);
 		this.samAppSDK = new SAMAppSDKUtils(samRestURL);
@@ -159,6 +165,9 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 		this.samAppName = appName;
 		this.deployRefApps = deployRefAppsConfig;
 		this.useSingleHdpHDF = useSingleHDPHDF;
+		
+		this.hdpAmbarUserName=hdpAmbarUserName;
+		this.hdpAmbariUserPasswd=hdpAmbariUserPasswd;
 		
 		if(StringUtils.isNotEmpty(extensionsArtifactSuffix)) {
 			this.samCustomArtifactSuffix = extensionsArtifactSuffix;
@@ -304,7 +313,7 @@ public class SMMTruckingRefAppEnviornmentBuilderImpl implements TruckingRefAppEn
 	}	
 	
 	public void importSAMAppForSMM() {
-		Resource samImportResource = new ClassPathResource(PropertiesConstants.SMM_REF_APP_FILE_LOCATION);
+		Resource samImportResource = new ClassPathResource(PropertiesConstants.SMM_REF_APP_ADVANCED_FILE_LOCATION);
 		samAppManager.importSAMApplication(this.samAppName, samEnvName, samImportResource);
 	}	
 
